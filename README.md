@@ -1,4 +1,4 @@
 npm install -> para instalar dependencias
 
-node server.js o npm start -> para ejecutar
+node server.js | npm start | npm run dev -> para ejecutar
 
