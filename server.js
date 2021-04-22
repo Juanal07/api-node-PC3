@@ -4,10 +4,10 @@ const crypto = require("crypto");
 const cors = require("cors");
 const app = express();
 app.use(express.json());
-var corsOptions = {
+/* var corsOptions = {
 	origin: "http://localhost:8080",
-};
-app.use(cors(corsOptions));
+}; */
+app.use(cors());
 
 app.set("port", process.env.PORT || 8080);
 
@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
 	res.send("Hi!");
 });
 
-app.get("/api/login", (req, res) => {
+app.post("/api/login", (req, res) => {
 	console.log(req.body.email);
 	console.log(req.body.password);
 	const str = "I need to be hashed 😃!";
