@@ -1,11 +1,10 @@
-
 const mariadb = require("mariadb");
 
 const pool = mariadb.createPool({
-	host: "2.139.176.212",
-	user: "pr_softlusion",
-	password: "Softlusion",
-	database: "prsoftlusion",
+    host: "2.139.176.212",
+    user: "pr_softlusion",
+    password: "Softlusion",
+    database: "prsoftlusion",
 });
 
 
