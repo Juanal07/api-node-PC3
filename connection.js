@@ -1,21 +1,34 @@
 const mariadb = require("mariadb");
-const { mariadb_database } = require('./config')
 
-const connection = mariadb.createConnection(mariadb_database)
+const { config } = require("./config");
 
-.then(conn => {
-        console.log("Conectado a MariaDB! connection id is " + conn.threadId);
-        /*conn.query("SELECT * FROM user")
-            .then(rows => {
-                console.log(rows); //[ { 'NOW()': 2018-07-02T17:06:38.000Z }, meta: [ ... ] ]
-            })
-            .catch(err => {
-                //handle error
-            });*/
+const pool = mariadb.createPool(config);
+pool.getConnection()
+    .then(conn => {
+      console.log("connected ! connection id is " + conn.threadId);
+      conn.release(); //release to pool
     })
     .catch(err => {
-        console.log("No conecta debido a un error: " + err);
+      console.log("not connected due to error: " + err);
     });
 
 
-module.exports = connection
+
+
+
+
+	// .then((conn) => {
+	// 	console.log("Conectado a MariaDB! connection id is " + conn.threadId);
+	// 	conn
+	// 		.query("SELECT * FROM user WHERE name='Juan'")
+	// 		.then((rows) => {
+	// 			console.log(rows); 
+	// 		})
+	// 		.catch((err) => {
+	// 		});
+	// })
+	// .catch((err) => {
+	// 	console.log("No conecta debido a un error: " + err);
+	// });
+
+module.exports = pool;

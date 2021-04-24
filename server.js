@@ -6,6 +6,7 @@ const cors = require("cors");
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt');
 const app = express();
+
 app.use(express.json());
 /* var corsOptions = {
 	origin: "http://localhost:8080",
@@ -19,15 +20,17 @@ app.get("/", (req, res) => {
     res.send("Hi!");
 });
 
-app.post("/api/login", (req, res) => {
+app.post("/api/login", async (req, res) => {
     console.log("Se va a registrar un usuario");
     console.log("Usuario: ", req.body.email);
     console.log("Contraseña: ", req.body.password);
+	const email = req.body.email;
     const secret = "This is a company secret 🤫";
     const sha256Hasher = crypto.createHmac("sha256", secret);
     const hash = sha256Hasher.update(req.body.password).digest("hex");
     console.log("Contraseña hasheada:", hash);
-
+	const psw = await connection.query("SELECT password FROM user WHERE email= ?", [email]);
+	console.log(psw);
     console.log("JSON Web Token de la contraseña:", bcrypt.hashSync(req.body.password, 10));
     // TODO: insert en tabla usuario de la bbdd para luego comparalo con el token
 
