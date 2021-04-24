@@ -23,7 +23,7 @@ pool.getConnection((err, connection) => {
 	return;
 });
 
-//Convertimos a promesas lo que antes era callbacks (el metodo query)
+// Convertimos a promesas lo que antes era callbacks (el metodo query)
 pool.query = promisify(pool.query);
 
 module.exports = pool;

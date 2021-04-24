@@ -1,27 +1,26 @@
 const express = require("express");
-// const bodyParser = require("body-parser");
-// const crypto = require("crypto");
-// const cors = require("cors");
-// const jwt = require("jsonwebtoken");
-// const bcrypt = require("bcrypt");
-// const morgan = require("morgan");
-// const pool = require("./database");
+const bodyParser = require("body-parser");
+const crypto = require("crypto");
+const cors = require("cors");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const morgan = require("morgan");
 
 // initializations
 const app = express();
 
-// var corsOptions = {
-// 	origin: "http://localhost:8080",
-// }; 
-// app.use(cors());
+const corsOptions = {
+	origin: "http://localhost:8080",
+}; 
+app.use(cors(corsOptions));
 
 // settings
 app.set("port", process.env.PORT || 8080);
 
 //middleware para visualizar peticiones
-// app.use(morgan("dev"));
+app.use(morgan("dev"));
 
-// app.use(express.json);
+// app.use(bodyParser.json);
 
 // Global Variables
 // app.use((req, res, next) => {
@@ -30,11 +29,8 @@ app.set("port", process.env.PORT || 8080);
 // });
 
 // Routes
-// app.use(require("./routes"));
+app.use(require("./routes"));
 
-app.get('/api', (req, res) =>{
-    res.send('Hello you!')
-});
 // Public
 
 // Starting the server
