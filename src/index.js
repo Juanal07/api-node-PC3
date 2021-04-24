@@ -1,10 +1,10 @@
 const express = require("express");
 // const bodyParser = require("body-parser");
-const crypto = require("crypto");
-const cors = require("cors");
+// const crypto = require("crypto");
+// const cors = require("cors");
 // const jwt = require("jsonwebtoken");
 // const bcrypt = require("bcrypt");
-const morgan = require("morgan");
+// const morgan = require("morgan");
 // const pool = require("./database");
 
 // initializations
@@ -13,7 +13,7 @@ const app = express();
 // var corsOptions = {
 // 	origin: "http://localhost:8080",
 // }; 
-app.use(cors());
+// app.use(cors());
 
 // settings
 app.set("port", process.env.PORT || 8080);
@@ -21,7 +21,7 @@ app.set("port", process.env.PORT || 8080);
 //middleware para visualizar peticiones
 // app.use(morgan("dev"));
 
-app.use(express.json);
+// app.use(express.json);
 
 // Global Variables
 // app.use((req, res, next) => {
