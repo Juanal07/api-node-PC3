@@ -49,7 +49,7 @@ router.post("/api/login", async function (req, res) {
 		const result = await pool.query(sqlQuery, [email]);
 		console.log(result[0].password);
 		const ddbb_psw = result[0].password;
-		const sha256Hasher = crypto.createHmac("sha256", password);
+		const sha256Hasher = crypto.createHmac("sha256", "secreto");
 		const hashed_psw = sha256Hasher.update(password).digest("hex");
 		console.log(hashed_psw);
 		if (ddbb_psw === password) {
