@@ -1,6 +1,5 @@
 const mariadb = require("mariadb");
 
-const { promisify } = require('util');
 const { database } = require("./keys");
 
 const pool = mariadb.createPool(database);
@@ -17,13 +16,9 @@ pool.getConnection((err, connection) => {
 			console.log("DATABASE CONNECTION WAS REFUSED");
 		}
 	}
-
 	if (connection) connection.release();
-	console.log("DB is Connected");
+	console.log("connected ! connection id is " + conn.threadId);
 	return;
 });
-
-// Convertimos a promesas lo que antes era callbacks (el metodo query)
-pool.query = promisify(pool.query);
 
 module.exports = pool;
