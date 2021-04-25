@@ -21,20 +21,22 @@ router.get("/api/users", async function (req, res) {
 		console.log(err);
 		res.status(400).send(err);
 	}
-	// res.status(200).json(rows);
 });
 
 router.post("/api/register", async function (req, res) {
 	try {
-		const { name, email, password } = req.body;
-		const sqlQuery = "SELECT COUNT(email) FROM user WHERE email = ?";
-		const result = await pool.query(sqlQuery, [email]);
-
-		console.log(result);
-		if (result == 1) {
-			res.status(200).json({ result });
+		let { name, email, password } = req.body;
+		let sqlQuery = "SELECT COUNT(email) FROM user WHERE email = ?";
+		let result = await pool.query(sqlQuery, [email]);
+		let invalidEmail = result[0]["COUNT(email)"];
+		if (invalidEmail == 0) {
+			let encryptedPassword = await bcrypt.hash(password, 10);
+			sqlQuery =
+				"INSERT INTO user (name, email, password, active, type) VALUES (?,?,?,1,0)";
+			await pool.query(sqlQuery, [name, email, encryptedPassword]);
+			res.status(200).json({ msg: "registered" });
 		} else {
-			res.status(200).json({ result });
+			res.status(200).json({ msg: "invalid email" });
 		}
 	} catch (err) {
 		console.log(err);

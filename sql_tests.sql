@@ -1,1 +1,3 @@
-ALTER TABLE table_name AUTO_INCREMENT = value;
+ALTER TABLE user AUTO_INCREMENT = 7;
+
+INSERT INTO user (name, email, password, active, type) VALUES (?,?,?,1,0);

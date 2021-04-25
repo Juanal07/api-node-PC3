@@ -8,17 +8,13 @@ const morgan = require("morgan");
 // initializations
 const app = express();
 
-const corsOptions = {
-	origin: "http://localhost:8080",
-};
-
 // settings
 app.set("port", process.env.PORT || 8080);
 
 //middleware
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(cors(corsOptions));
+app.use(cors());
 // app.use(bodyParser.json);
 
 // Global Variables
