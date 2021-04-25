@@ -1,6 +1,8 @@
-const express = require("express");
-const bodyParser = require("body-parser");
+// const express = require("express");
+import express from "express";
+// const bodyParser = require("body-parser");
 const router = express.Router();
+// import bcrypt from "bcrypt";
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
@@ -19,7 +21,7 @@ router.get("/api/users", async function (req, res) {
 		res.status(200).json(rows);
 	} catch (err) {
 		console.log(err);
-		res.status(400).send(error.message);
+		res.status(400).send(err);
 	}
 	// res.status(200).json(rows);
 });
@@ -50,8 +52,9 @@ router.post("/api/login", async function (req, res) {
 		console.log(result[0].password);
 		const ddbb_psw = result[0].password;
 		const sha256Hasher = crypto.createHmac("sha256", "secreto");
-		const hashed_psw = sha256Hasher.update(password).digest("hex");
+		const hashed_psw = sha256Hasher.digest("hex");
 		console.log(hashed_psw);
+		console.log("adiosss");
 		if (ddbb_psw === password) {
 			console.log("autenfificado");
 			// SEND TOKEN
@@ -61,9 +64,8 @@ router.post("/api/login", async function (req, res) {
 		}
 	} catch (err) {
 		console.log(err);
-		res.status(400).send(error.message);
+		res.status(400).send(err);
 	}
 });
 
 module.exports = router;
-

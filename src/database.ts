@@ -1,10 +1,12 @@
 const mariadb = require("mariadb");
 
+// import mariadb from "mariadb";
+
 const { database } = require("./keys");
 
 const pool = mariadb.createPool(database);
 
-pool.getConnection((err, connection) => {
+pool.getConnection((err: any, connection: any) => {
 	if (err) {
 		if (err.code === "PROTOCOL_CONNECTION_LOST") {
 			console.log("DATABASE CONNECTION WAS CLOSED");
@@ -17,7 +19,7 @@ pool.getConnection((err, connection) => {
 		}
 	}
 	if (connection) connection.release();
-	console.log("connected ! connection id is " + conn.threadId);
+	console.log("connected ! connection id is " + connection.threadId);
 	return;
 });
 
