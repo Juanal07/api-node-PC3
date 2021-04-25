@@ -1,4 +1,3 @@
-// const express = require("express");
 import express from "express";
 // const bodyParser = require("body-parser");
 // import cors from "cors";

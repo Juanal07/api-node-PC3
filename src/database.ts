@@ -1,10 +1,7 @@
 const mariadb = require("mariadb");
-
-// import mariadb from "mariadb";
-
 const { database } = require("./keys");
 
-const pool = mariadb.createPool(database);
+export const pool = mariadb.createPool(database);
 
 pool.getConnection((err: any, connection: any) => {
 	if (err) {
@@ -23,4 +20,4 @@ pool.getConnection((err: any, connection: any) => {
 	return;
 });
 
-module.exports = pool;
+// module.exports = pool;
