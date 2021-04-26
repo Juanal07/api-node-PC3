@@ -1,4 +1,11 @@
-npm install -> para instalar dependencias
 
-node server.js | npm start | npm run dev -> para ejecutar
+![Logo](https://github.com/Juanal07/frontend-Softlusion-PC2/blob/master/src/assets/images/logo.PNG)
+# API node PC3
+## Installation
+```git clone https://github.com/Juanal07/api-node-PC3.git```
 
+```cd api-node-PC3```
+## Install dependencies
+```npm install```
+## Run server
+```npm run start```
