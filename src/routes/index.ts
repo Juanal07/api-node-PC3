@@ -1,9 +1,7 @@
 import express from "express";
-// const bodyParser = require("body-parser");
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 const router = express.Router();
-const bcrypt = require("bcrypt");
-const crypto = require("crypto");
-const jwt = require("jsonwebtoken");
 
 import { pool } from "../database";
 
@@ -17,7 +15,6 @@ router.get("/api/users", async function (req, res) {
 	try {
 		const sqlQuery = "SELECT * FROM user";
 		const rows = await pool.query(sqlQuery);
-		console.log(rows);
 		res.status(200).json(rows);
 	} catch (err) {
 		console.log(err);
@@ -33,7 +30,6 @@ router.post("/api/register", async function (req, res) {
 		const invalidEmail = result[0]["COUNT(email)"];
 		if (invalidEmail == 0) {
 			const encryptedPassword = await bcrypt.hash(password, 10);
-			// TODO: mirar lo de la password bien cifrada
 			const sqlQuery2 =
 				"INSERT INTO user (name, email, password, active, type) VALUES (?,?,?,1,0)";
 			await pool.query(sqlQuery2, [name, email, encryptedPassword]);
@@ -52,14 +48,10 @@ router.post("/api/login", async function (req, res) {
 		const { email, password } = req.body;
 		const sqlQuery = "SELECT password FROM user WHERE email = ?";
 		const result = await pool.query(sqlQuery, [email]);
-		// TODO: comprobar psw cifrada
 		console.log(result[0].password);
 		const ddbb_psw = result[0].password;
-		const sha256Hasher = crypto.createHmac("sha256", "secreto");
-		const hashed_psw = sha256Hasher.digest("hex");
-		console.log(hashed_psw);
-		console.log("adiosss");
-		if (ddbb_psw === password) {
+		const match = await bcrypt.compare(password, ddbb_psw);
+		if (match) {
 			jwt.sign({ email, password }, "secret", function (err: any, token: any) {
 				console.log(token);
 				res.json({ token });

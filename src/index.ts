@@ -1,9 +1,6 @@
 import express from "express";
-// const bodyParser = require("body-parser");
-// import cors from "cors";
-const cors = require("cors");
-// import morgan from "morgan";
-const morgan = require("morgan");
+import cors from "cors";
+import morgan from "morgan";
 
 // initializations
 const app = express();
@@ -15,7 +12,6 @@ app.set("port", process.env.PORT || 8080);
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
-// app.use(bodyParser.json);
 
 // Global Variables
 
