@@ -48,18 +48,14 @@ router.post("/api/login", async function (req, res) {
 		const { email, password } = req.body;
 		const sqlQuery = "SELECT password FROM user WHERE email = ?";
 		const result = await pool.query(sqlQuery, [email]);
-		console.log(result[0].password);
 		const ddbb_psw = result[0].password;
 		const match = await bcrypt.compare(password, ddbb_psw);
 		if (match) {
-			jwt.sign({ email, password }, "secret", function (err: any, token: any) {
-				console.log(token);
-				res.json({ token });
+			const token = await jwt.sign({ email, password }, "secret", {
+				expiresIn: "5m",
 			});
-
+			res.status(200).json({ token });
 			console.log("autenfificado");
-			// SEND TOKEN
-			// res.status(200).json({ msg: "autenfificado" });
 		} else {
 			res.status(200).json({ msg: "NO autenfificado" });
 		}
@@ -69,29 +65,29 @@ router.post("/api/login", async function (req, res) {
 	}
 });
 
-// router.post("/api/post", verifyToken, (req, res) => {
-// 	jwt.verify(req.token, "secret", (error: any, authData: any) => {
-// 		if (error) {
-// 			res.sendStatus(403);
-// 		} else {
-// 			res.json({
-// 				mensaje: "post creado",
-// 				authData,
-// 			});
-// 		}
-// 	});
-// });
+router.post("/api/post", verifyToken, (req: any, res: any) => {
+	jwt.verify(req.token, "secret", (error: any, authData: any) => {
+		if (error) {
+			res.sendStatus(403);
+		} else {
+			res.json({
+				mensaje: "post creado",
+				authData,
+			});
+		}
+	});
+});
 
-// // Authorization: Bearer <token>
-// function verifyToken(req: any, res: any, next: any) {
-// 	const bearerHeader = req.headers["authorization"];
-// 	if (typeof bearerHeader !== "undefined") {
-// 		const bearerToken = bearerHeader.split(" ")[1];
-// 		req.token = bearerToken;
-// 		next();
-// 	} else {
-// 		res.sendStatus(403);
-// 	}
-// }
+// Authorization: Bearer <token>
+function verifyToken(req: any, res: any, next: any) {
+	const bearerHeader = req.headers["authorization"];
+	if (typeof bearerHeader !== "undefined") {
+		const bearerToken = bearerHeader.split(" ")[1];
+		req.token = bearerToken;
+		next();
+	} else {
+		res.sendStatus(403);
+	}
+}
 
 module.exports = router;
