@@ -7,6 +7,8 @@ const jwt = require("jsonwebtoken");
 
 import { pool } from "../database";
 
+// TODO: encapsular condigo de endpoints a controladores
+
 router.get("/", async function (req, res) {
 	res.send("Hello world!");
 });
@@ -25,15 +27,16 @@ router.get("/api/users", async function (req, res) {
 
 router.post("/api/register", async function (req, res) {
 	try {
-		let { name, email, password } = req.body;
-		let sqlQuery = "SELECT COUNT(email) FROM user WHERE email = ?";
-		let result = await pool.query(sqlQuery, [email]);
-		let invalidEmail = result[0]["COUNT(email)"];
+		const { name, email, password } = req.body;
+		const sqlQuery = "SELECT COUNT(email) FROM user WHERE email = ?";
+		const result = await pool.query(sqlQuery, [email]);
+		const invalidEmail = result[0]["COUNT(email)"];
 		if (invalidEmail == 0) {
-			let encryptedPassword = await bcrypt.hash(password, 10);
-			sqlQuery =
+			const encryptedPassword = await bcrypt.hash(password, 10);
+			// TODO: mirar lo de la password bien cifrada
+			const sqlQuery2 =
 				"INSERT INTO user (name, email, password, active, type) VALUES (?,?,?,1,0)";
-			await pool.query(sqlQuery, [name, email, encryptedPassword]);
+			await pool.query(sqlQuery2, [name, email, encryptedPassword]);
 			res.status(200).json({ msg: "registered" });
 		} else {
 			res.status(200).json({ msg: "invalid email" });
@@ -49,7 +52,7 @@ router.post("/api/login", async function (req, res) {
 		const { email, password } = req.body;
 		const sqlQuery = "SELECT password FROM user WHERE email = ?";
 		const result = await pool.query(sqlQuery, [email]);
-
+		// TODO: comprobar psw cifrada
 		console.log(result[0].password);
 		const ddbb_psw = result[0].password;
 		const sha256Hasher = crypto.createHmac("sha256", "secreto");

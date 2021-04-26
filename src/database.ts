@@ -2,7 +2,7 @@ const mariadb = require("mariadb");
 const { database } = require("./keys");
 
 export const pool = mariadb.createPool(database);
-
+// TODO: max users conection
 pool.getConnection((err: any, connection: any) => {
 	if (err) {
 		if (err.code === "PROTOCOL_CONNECTION_LOST") {
