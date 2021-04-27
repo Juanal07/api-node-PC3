@@ -2,22 +2,18 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 
-// initializations
+// Initializations
 const app = express();
 
-// settings
+// Settings
 app.set("port", process.env.PORT || 8080);
 
-//middleware
+// Middleware
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
 
 // Global Variables
-
-// app.use((req, res, next) => {
-// 	next();
-// });
 
 // Routes
 app.use(require("./routes"));
