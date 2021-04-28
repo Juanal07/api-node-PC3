@@ -36,24 +36,6 @@ CREATE TABLE IF NOT EXISTS `community` (
 /*!40000 ALTER TABLE `community` DISABLE KEYS */;
 /*!40000 ALTER TABLE `community` ENABLE KEYS */;
 
--- Volcando estructura para tabla prsoftlusion.historical
-CREATE TABLE IF NOT EXISTS `historical` (
-  `idHistorical` int(11) NOT NULL AUTO_INCREMENT,
-  `dateInit` datetime NOT NULL,
-  `dateFinal` datetime DEFAULT NULL,
-  `idUser` int(11) NOT NULL,
-  `idCommunity` int(11) NOT NULL,
-  PRIMARY KEY (`idHistorical`) USING BTREE,
-  KEY `idUser` (`idUser`),
-  KEY `idCommunity` (`idCommunity`),
-  CONSTRAINT `FK_idCommunity_historical` FOREIGN KEY (`idCommunity`) REFERENCES `community` (`idComunity`),
-  CONSTRAINT `FK_idUser_historical` FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Volcando datos para la tabla prsoftlusion.historical: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `historical` DISABLE KEYS */;
-/*!40000 ALTER TABLE `historical` ENABLE KEYS */;
-
 -- Volcando estructura para tabla prsoftlusion.historicalsearch
 CREATE TABLE IF NOT EXISTS `historicalsearch` (
   `idHistoricalSearch` int(11) NOT NULL AUTO_INCREMENT,
@@ -112,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `message` (
   `idCommunity` int(11) NOT NULL,
   PRIMARY KEY (`idMsg`),
   KEY `idCommunity` (`idCommunity`),
-  KEY `FK_user_message` (`idUser`),
+  KEY `idUser` (`idUser`) USING BTREE,
   CONSTRAINT `FK_community_mesage` FOREIGN KEY (`idCommunity`) REFERENCES `community` (`idComunity`),
   CONSTRAINT `FK_user_message` FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -8398,47 +8380,18 @@ INSERT INTO `municipalitytest` (`idMunicipality`, `name`, `shield`, `region`, `p
 	(176, 'Aguilar de Segarra', 'https://upload.wikimedia.org/wikipedia/commons/0/01/Escudo_de_Aguilar_de_Segarra_%28Barcelona%29.svg', 'Bages', 'Provincia de Barcelona', 'Cataluña', 480, 43.14, 288, 6.68);
 /*!40000 ALTER TABLE `municipalitytest` ENABLE KEYS */;
 
--- Volcando estructura para tabla prsoftlusion.new
-CREATE TABLE IF NOT EXISTS `new` (
-  `idNew` int(11) NOT NULL AUTO_INCREMENT,
-  `unpopulated` bit(1) NOT NULL DEFAULT b'0',
-  PRIMARY KEY (`idNew`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Volcando datos para la tabla prsoftlusion.new: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `new` DISABLE KEYS */;
-/*!40000 ALTER TABLE `new` ENABLE KEYS */;
-
--- Volcando estructura para tabla prsoftlusion.restaurant
-CREATE TABLE IF NOT EXISTS `restaurant` (
-  `idRestaurant` int(11) NOT NULL AUTO_INCREMENT,
-  `lastOpinionDate` date NOT NULL,
-  `nPositives` int(11) NOT NULL DEFAULT 0,
-  `nNegatives` int(11) NOT NULL DEFAULT 0,
-  `media` float NOT NULL DEFAULT 0,
-  PRIMARY KEY (`idRestaurant`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Volcando datos para la tabla prsoftlusion.restaurant: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `restaurant` DISABLE KEYS */;
-/*!40000 ALTER TABLE `restaurant` ENABLE KEYS */;
-
 -- Volcando estructura para tabla prsoftlusion.search
 CREATE TABLE IF NOT EXISTS `search` (
   `idSearch` int(11) NOT NULL AUTO_INCREMENT,
   `idMunicipality` int(11) NOT NULL,
-  `idRestaurant` int(11) NOT NULL,
-  `idNew` int(11) NOT NULL,
-  `idSubsetSupermarket` int(11) NOT NULL,
+  `lastOpinionDate` date NOT NULL,
+  `nPositives` int(11) NOT NULL DEFAULT 0,
+  `nNegatives` int(11) NOT NULL DEFAULT 0,
+  `media` float NOT NULL DEFAULT 0,
+  `unpopulated` bit(1) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`idSearch`),
   KEY `idMunicipality` (`idMunicipality`),
-  KEY `idRestaurant` (`idRestaurant`),
-  KEY `idNew` (`idNew`),
-  KEY `idSubsetSupermarket` (`idSubsetSupermarket`),
-  CONSTRAINT `FK_municipality_search` FOREIGN KEY (`idMunicipality`) REFERENCES `municipality` (`idMunicipality`),
-  CONSTRAINT `FK_new_search` FOREIGN KEY (`idNew`) REFERENCES `new` (`idNew`),
-  CONSTRAINT `FK_restaurant_search` FOREIGN KEY (`idRestaurant`) REFERENCES `restaurant` (`idRestaurant`),
-  CONSTRAINT `FK_subsetSupers_search` FOREIGN KEY (`idSubsetSupermarket`) REFERENCES `subsetsupermarkets` (`idSubset`)
+  CONSTRAINT `FK_municipality_search` FOREIGN KEY (`idMunicipality`) REFERENCES `municipality` (`idMunicipality`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Volcando datos para la tabla prsoftlusion.search: ~0 rows (aproximadamente)
@@ -8462,26 +8415,16 @@ CREATE TABLE IF NOT EXISTS `station` (
 /*!40000 ALTER TABLE `station` DISABLE KEYS */;
 /*!40000 ALTER TABLE `station` ENABLE KEYS */;
 
--- Volcando estructura para tabla prsoftlusion.subsetsupermarkets
-CREATE TABLE IF NOT EXISTS `subsetsupermarkets` (
-  `idSubset` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`idSubset`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Volcando datos para la tabla prsoftlusion.subsetsupermarkets: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `subsetsupermarkets` DISABLE KEYS */;
-/*!40000 ALTER TABLE `subsetsupermarkets` ENABLE KEYS */;
-
 -- Volcando estructura para tabla prsoftlusion.supermarket
 CREATE TABLE IF NOT EXISTS `supermarket` (
   `idSupermarket` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `address` varchar(255) NOT NULL,
   `distance` float NOT NULL,
-  `idSubset` int(11) NOT NULL,
+  `idSearch` int(11) NOT NULL,
   PRIMARY KEY (`idSupermarket`),
-  KEY `idSubset` (`idSubset`),
-  CONSTRAINT `FK_idSubset_supermarkets` FOREIGN KEY (`idSubset`) REFERENCES `subsetsupermarkets` (`idSubset`)
+  KEY `idSearch` (`idSearch`) USING BTREE,
+  CONSTRAINT `FK_supermarket_search` FOREIGN KEY (`idSearch`) REFERENCES `search` (`idSearch`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Volcando datos para la tabla prsoftlusion.supermarket: ~0 rows (aproximadamente)
@@ -8495,22 +8438,55 @@ CREATE TABLE IF NOT EXISTS `user` (
   `email` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
   `active` tinyint(1) NOT NULL,
-  `type` tinyint(1) NOT NULL,
+  `admin` tinyint(1) NOT NULL,
   `dateSignIn` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`idUser`),
   UNIQUE KEY `email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4;
 
--- Volcando datos para la tabla prsoftlusion.user: ~6 rows (aproximadamente)
+-- Volcando datos para la tabla prsoftlusion.user: ~21 rows (aproximadamente)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`idUser`, `name`, `email`, `password`, `active`, `type`, `dateSignIn`) VALUES
+INSERT INTO `user` (`idUser`, `name`, `email`, `password`, `active`, `admin`, `dateSignIn`) VALUES
 	(1, 'Juan', 'jjrr1307@gmail.com', '1234', 1, 0, '2021-04-14 11:46:31'),
 	(2, 'admin', 'admin@softlusion.com', 'Adm1N', 1, 1, '2021-04-14 12:27:17'),
 	(3, 'Alvaro', 'Gamerojtm@gmail.com', 'gameroAlv', 1, 0, '2021-04-14 12:28:58'),
 	(4, 'Javier', 'javiaspiroz@gmail.com', 'jaViAsp', 1, 0, '2021-04-14 12:29:39'),
 	(5, 'Solange', 'sol@gmail.com', '1234', 1, 0, '2021-04-14 11:46:31'),
-	(6, 'Pedro', 'pedro@gmail.com', '1234', 1, 0, '2021-04-15 13:44:07');
+	(6, 'Pedro', 'pedro@gmail.com', '1234', 1, 0, '2021-04-15 13:44:07'),
+	(7, 'Juan', '2344jjrr1307@gmail.com', '$2b$10$5A70D5d8rQ1uXvnZ5REAze/vbKW91NxDqIJ4z8nLxodgPmr2xdbOu', 1, 0, '2021-04-26 00:37:26'),
+	(8, 'Juan', '2f344jjrr1307@gmail.com', '$2b$10$RU53Nsdd8fjX57kKT6vbR.hqxtID24bFVZlOB9cee3v.o6XY7cPfG', 1, 0, '2021-04-26 00:40:47'),
+	(9, 'Alvaro', '1@.com', '$2b$10$sQEiuspM9aQGdyQ4q3fpCOK5wMUs/57r8zjZCuWpnnBNb8nrlF3GK', 1, 0, '2021-04-26 12:54:37'),
+	(10, 'AAA', 'AA@AA', '$2b$10$IXYXMKxa8UFO90L7ORs1uuaQhHbcr/78k5EPuHqY634dcjhWs7GY2', 1, 0, '2021-04-26 13:01:43'),
+	(11, 'Juan', '2f3ff44jjrr1307@gmail.com', '$2b$10$WDCVl9lKl0pcDz/osq8td.mUZsX70AU5sD0tNs4NAVFCwA0fZPULW', 1, 0, '2021-04-26 18:05:14'),
+	(12, 'Juan', '1jjrr1307@gmail.com', '$2b$10$O9bLGij40gIEZonf5gBtHOMYuM0y7nyrjtApItBygIfIM6mmr/NbW', 1, 0, '2021-04-26 18:28:42'),
+	(13, 'Juan', '2jjrr1307@gmail.com', '$2b$10$K3wRbEZWqXKFuxshDWSPXuNUYqlI5if8Hzhzd131h3z3k2/3MuGnC', 1, 0, '2021-04-26 18:28:49'),
+	(14, 'Juan', '3jjrr1307@gmail.com', '$2b$10$yFSiqteGFZBodgKveaMrb.kF9/6.1pauFVdpkMJqscMwpXxhOTyjC', 1, 0, '2021-04-26 18:30:20'),
+	(15, 'Juan', '4jjrr1307@gmail.com', '$2b$10$WJYb96tQeX5CEEjzILtVUu8M9i0ztw0dXaa7yQ3QE6OrCCyNjq0p2', 1, 0, '2021-04-26 18:30:23'),
+	(16, 'Juan', '5jjrr1307@gmail.com', '$2b$10$OY5rLLkRuAwbw4WyZHVNzuxDMxhHFcLdWpY/YKfNwMw4987giU87S', 1, 0, '2021-04-26 18:40:00'),
+	(17, 'aaaaa', 'aaa', '$2b$10$erudulCfvk1Vte4oNZz3suRYgs.DpGiXxCr1DQPhrq0/e/8IPh9Ky', 1, 0, '2021-04-27 12:59:29'),
+	(18, 'alvaro', '1234', '$2b$10$TzkRfoRe4KQZLV/ZthgvduMJwzfronJkKCvcMgQxGzBILaTIbKaxC', 1, 0, '2021-04-27 16:59:13'),
+	(19, 'Juan', 'ajjrr1307@gmail.com', '$2b$10$bVnSu/99YRPW1u/fzTXrceU4c2JtQdqq1Hb6jty7c9qrlOZWq/OJi', 1, 0, '2021-04-28 00:44:04'),
+	(20, 'Juan', '6jjrr1307@gmail.com', '$2b$10$RqdtW4rmkYGGbHGaE/MqqOEnyjJdK2YAP1z9LGXQ51yBsXkDSCc4q', 1, 0, '2021-04-28 01:05:05'),
+	(21, 'test', 'test@test.com', '$2b$10$EygoPxU.Djo4IcXMDxtAWuFuxlrlrz1U9MPBFUHj6R7PluRQvQpV2', 1, 0, '2021-04-28 13:41:13');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
+
+-- Volcando estructura para tabla prsoftlusion.user-community
+CREATE TABLE IF NOT EXISTS `user-community` (
+  `idHistorical` int(11) NOT NULL AUTO_INCREMENT,
+  `dateInit` datetime NOT NULL,
+  `dateFinal` datetime DEFAULT NULL,
+  `idUser` int(11) NOT NULL,
+  `idCommunity` int(11) NOT NULL,
+  PRIMARY KEY (`idHistorical`) USING BTREE,
+  KEY `idUser` (`idUser`),
+  KEY `idCommunity` (`idCommunity`),
+  CONSTRAINT `FK_idCommunity_historical` FOREIGN KEY (`idCommunity`) REFERENCES `community` (`idComunity`),
+  CONSTRAINT `FK_idUser_historical` FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Volcando datos para la tabla prsoftlusion.user-community: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `user-community` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user-community` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
