@@ -32,7 +32,7 @@ router.post("/api/register", async function (req, res) {
 		if (invalidEmail == 0) {
 			const encryptedPassword = await bcrypt.hash(password, 10);
 			const sqlQuery2 =
-				"INSERT INTO user (name, email, password, active, type) VALUES (?,?,?,1,0)";
+				"INSERT INTO user (name, email, password, active, admin) VALUES (?,?,?,1,0)";
 			await pool.query(sqlQuery2, [name, email, encryptedPassword]);
 			res.status(200).json({ status: 200, data: {} });
 		} else {
