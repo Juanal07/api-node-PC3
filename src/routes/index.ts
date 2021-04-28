@@ -1,10 +1,8 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-
-const router = express.Router();
-
 import { pool } from "../database";
+const router = express.Router();
 
 // TODO: encapsular condigo de endpoints a controladores
 
@@ -34,9 +32,11 @@ router.post("/api/register", async function (req, res) {
 			const sqlQuery2 =
 				"INSERT INTO user (name, email, password, active, admin) VALUES (?,?,?,1,0)";
 			await pool.query(sqlQuery2, [name, email, encryptedPassword]);
-			res.status(200).json({ status: 200, data: {} });
+			res
+				.status(200)
+				.json({ status: 200, data: { email, password, msg: "registered" } });
 		} else {
-			res.status(200).json({ msg: "invalid email" });
+			res.status(403).json({ status: 403, data: { msg: "invalid email" } });
 		}
 	} catch (err) {
 		console.log(err);
@@ -47,20 +47,21 @@ router.post("/api/register", async function (req, res) {
 router.post("/api/login", async function (req, res) {
 	try {
 		const { email, password } = req.body;
-		const sqlQuery = "SELECT name, password FROM user WHERE email = ?";
+		const sqlQuery = "SELECT idUser, name, password FROM user WHERE email = ?";
 		const result = await pool.query(sqlQuery, [email]);
 		const db_psw = result[0].password;
 		const db_name = result[0].name;
-		console.log(db_name);
+		const db_idUser = result[0].idUser;
+		console.log(db_idUser);
 		const match = await bcrypt.compare(password, db_psw);
 		if (match) {
-			const token = await jwt.sign({ email, password }, "secret", {
+			const token = await jwt.sign({ db_idUser }, "secret", {
 				expiresIn: "5m",
 			});
 			res.status(200).json({ status: 200, data: { name: db_name, token } });
 			console.log("autenfificado");
 		} else {
-			res.status(200).json({ msg: "NO autenfificado" });
+			res.status(403).json({ status: 403, data: { msg: "NO autenfificado" } });
 		}
 	} catch (err) {
 		console.log(err);
@@ -68,8 +69,8 @@ router.post("/api/login", async function (req, res) {
 	}
 });
 
-router.post("/api/post", verifyToken, (req: any, res: any) => {
-	jwt.verify(req.token, "secret", (error: any, authData: any) => {
+router.post("/api/post", verifyToken, async function (req: any, res: any) {
+	await jwt.verify(req.token, "secret", (error: any, authData: any) => {
 		if (error) {
 			res.sendStatus(403);
 		} else {
