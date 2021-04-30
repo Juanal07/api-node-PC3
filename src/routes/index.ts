@@ -7,7 +7,7 @@ const router = express.Router();
 // TODO: encapsular condigo de endpoints a controladores
 
 router.get("/", async function (req, res) {
-	res.send("Hello world!");
+	res.send("Hello Mundo!");
 });
 
 router.get("/api/users", async function (req, res) {
@@ -15,6 +15,19 @@ router.get("/api/users", async function (req, res) {
 		const sqlQuery = "SELECT * FROM user";
 		const rows = await pool.query(sqlQuery);
 		res.status(200).json(rows);
+	} catch (err) {
+		console.log(err);
+		res.status(400).send(err);
+	}
+});
+
+router.get("/api/municipio", async function (req, res) {
+	try {
+		const { nombreMunicipio } = req.body;
+		const sqlQuery = "SELECT * FROM municipality where name = ?";
+		const result = await pool.query(sqlQuery, [nombreMunicipio]);
+		console.log(result);
+		res.status(200).json(result);
 	} catch (err) {
 		console.log(err);
 		res.status(400).send(err);
