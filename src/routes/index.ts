@@ -99,6 +99,7 @@ router.post("/api/profile", verifyToken, async function (req: any, res: any) {
         console.log(id);
         // console.log(id["db_idUser"]);
         const idUser: string = id["db_idUser"];
+        // const idUser: string = "18";
         const sqlQuery = "SELECT name, email FROM user WHERE idUser = ?";
         const result = await pool.query(sqlQuery, idUser);
         const name = result[0]["name"];
