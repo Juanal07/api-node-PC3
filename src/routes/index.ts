@@ -95,17 +95,16 @@ router.post("/api/login", async function (req, res) {
 
 router.post("/api/profile", verifyToken, async function (req: any, res: any) {
     try {
-        let id = jwt.verify(req.token, "secret");
-        console.log(id);
-        // console.log(id["db_idUser"]);
-        const idUser: string = id["db_idUser"];
-        // const idUser: string = "18";
+        const id = await jwt.verify(req.token, "secret");
+        console.log("id usuario es: ", id);
+        const idUser = (<any>id).db_idUser;
+        console.log(idUser);
         const sqlQuery = "SELECT name, email FROM user WHERE idUser = ?";
         const result = await pool.query(sqlQuery, idUser);
         const name = result[0]["name"];
         const email = result[0]["email"];
-        console.log(name);
-
+        // const name = "pedro";
+        // const email = "asdf@gmail.com";
         res.json({
             status: 200,
             data: {
@@ -118,6 +117,33 @@ router.post("/api/profile", verifyToken, async function (req: any, res: any) {
         res.status(400).send(err);
     }
 });
+
+router.post(
+    "/api/profile/changeData",
+    verifyToken,
+    async function (req: any, res: any) {
+        try {
+            const { name, email } = req.body;
+
+            console.log(name);
+            const id = await jwt.verify(req.token, "secret");
+            console.log("id usuario es: ", id);
+            const idUser = (<any>id).db_idUser;
+            console.log(idUser);
+            const sqlQuery =
+                "UPDATE user SET name = ?, email = ? WHERE idUser = ?";
+            await pool.query(sqlQuery, [name, email, idUser]);
+            console.log("actualizado");
+            res.json({
+                status: 200,
+                data: {},
+            });
+        } catch (err) {
+            console.log(err);
+            res.status(400).send(err);
+        }
+    }
+);
 
 router.post("/api/post", verifyToken, async function (req: any, res: any) {
     await jwt.verify(req.token, "secret", (error: any, authData: any) => {
