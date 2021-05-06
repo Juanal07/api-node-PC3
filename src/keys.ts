@@ -1,10 +1,10 @@
 module.exports = {
-	database: {
-		host: "2.139.176.212",
-		user: "pr_softlusion",
-		password: "Softlusion",
-		database: "prsoftlusion",
-		port: "3306",
-		connectionLimit: 5,
-	},
+    database: {
+        host: "2.139.176.212",
+        user: "pr_softlusion",
+        password: "Softlusion",
+        database: "prsoftlusion",
+        port: "3306",
+        connectionLimit: 2,
+    },
 };
