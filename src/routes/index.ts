@@ -23,13 +23,16 @@ router.get("/api/users", async function (req, res) {
 
 router.get("/api/municipio", async function (req, res) {
 	try {
-		const { nombreMunicipio } = req.body;
-		const sqlQuery = "SELECT * FROM municipality where name = ?";
-		const result = await pool.query(sqlQuery, [nombreMunicipio]);
-		console.log(result);
-		res.status(200).json(result);
+		//const { nombreMunicipio } = req.body;
+		//const sqlQuery = "SELECT * FROM municipality where name = ?";
+		const sqlQuery = "SELECT * FROM municipality LIMIT 10";
+		//const result = await pool.query(sqlQuery, [nombreMunicipio]);
+		const rows = await pool.query(sqlQuery);
+		//console.log(result);
+		//res.status(200).json(result);
+		res.status(200).json(rows[0]);
 	} catch (err) {
-		console.log(err);
+		console.log('Error al obtener municipio', err);
 		res.status(400).send(err);
 	}
 });
