@@ -1,10 +1,12 @@
 import requests
 import re
 from bs4 import BeautifulSoup
+import sys
 
 # TODO: mirar el tema de las tildes
 def scraping(provincia, municipio):
     URL = 'https://www.supermercados-en-espana.com'
+    # print(URL)
 
     searchProvincias(URL, provincia, municipio)
 
@@ -116,7 +118,6 @@ def showSupermercados(URL, link):
             supermercados.append(tupla)
         json = json[:-1]
         json += ']'
-        print(json)
 
     except:
         # print("\nERROR en ", linkMunicipio, "\n")
@@ -126,3 +127,7 @@ def showSupermercados(URL, link):
     #     print("No se encontraron supermercados cercanos en ese municipio")
     
     #print(supermercados)
+    # print(json)
+    # sys.stdout.flush()
+print("HI THERE")
+sys.stdout.flush()

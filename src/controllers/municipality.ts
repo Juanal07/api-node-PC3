@@ -36,23 +36,28 @@ async function scrapings(req: any, res: any) {
         const sqlQuery = "SELECT * FROM municipality WHERE idMunicipality = ?";
         const result = await pool.query(sqlQuery, [idMunicipality]);
         const nombre = result[0].name;
+        const provincia = result[0].province;
+        console.log(provincia)
         console.log(nombre);
 
-        const subprocess = spawn("python", ["scrapers/ws_noticias.py", nombre,]);
+        const subprocessNoticias = spawn("python", ["scrapers/ws_noticias.py", nombre,]);
+        // const subprocessSupermercados = spawn("python", ["scrapers/ws_supermercados.py", nombre, provincia]);
         // print output of script
-        subprocess.stdout.on("data", (data) => {
+        subprocessNoticias.stdout.on("data", (data) => {
             const texto = '{"data": "' + data;
             const texto2 = texto.concat('"}')
             console.log(texto2);
             const respuesta = JSON.parse(texto2);
             res.send(respuesta);
         });
-        subprocess.stderr.on("data", (data) => {
-            /* console.log(`error:${data}`); */
-        });
-        subprocess.stderr.on("close", () => {
-            console.log("Closed");
-        });
+        // subprocessSupermercados.stderr.on("data", (data) => {
+        //     console.log(data)
+            // const respuesta = JSON.parse(data);
+            // res.send(respuesta);
+        // });
+        // subprocess.stderr.on("close", () => {
+        //     console.log("Closed");
+        // });
         // res.status(200).json(result[0]);
 
         // const pythonProcess = spawn("python", ["../scrapers/ws_noticias.py"]);
