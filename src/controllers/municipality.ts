@@ -22,12 +22,12 @@ async function municipality(req: any, res: any) {
     }
 }
 
-function runScript() {
-    return spawn("python", [
-        "-u",
-        path.join(__dirname, "../scrapers/ws_noticias.py"),
-    ]);
-}
+// function runScript() {
+//     return spawn("python", [
+//         "-u",
+//         path.join(__dirname, "../scrapers/ws_noticias.py"),
+//     ]);
+// }
 async function scrapings(req: any, res: any) {
     try {
         console.log("hoooola");
@@ -40,21 +40,24 @@ async function scrapings(req: any, res: any) {
         console.log(provincia)
         console.log(nombre);
 
-        const subprocessNoticias = spawn("python", ["scrapers/ws_noticias.py", nombre,]);
-        // const subprocessSupermercados = spawn("python", ["scrapers/ws_supermercados.py", nombre, provincia]);
+        // const subprocessNoticias = spawn("python", ["scrapers/ws_noticias.py", nombre,]);
+        const subprocessSupermercados = spawn("python", ["scrapers/ws_supermercados.py", nombre, provincia]);
         // print output of script
-        subprocessNoticias.stdout.on("data", (data) => {
-            const texto = '{"data": "' + data;
-            const texto2 = texto.concat('"}')
-            console.log(texto2);
-            const respuesta = JSON.parse(texto2);
+        // subprocessNoticias.stdout.on("data", (data) => {
+        //     const texto = '{"data": "' + data;
+        //     const texto2 = texto.concat('"}')
+        //     console.log(texto2);
+        //     const respuesta = JSON.parse(texto2);
+        //     res.send(respuesta);
+        // });
+        subprocessSupermercados.stdout.on("data", (data) => {
+            // const texto = '{"data": "' + data;
+            // const texto2 = texto.concat('"}')
+            // console.log(texto2);
+            const respuesta = JSON.parse(data);
+            console.log(data)
             res.send(respuesta);
         });
-        // subprocessSupermercados.stderr.on("data", (data) => {
-        //     console.log(data)
-            // const respuesta = JSON.parse(data);
-            // res.send(respuesta);
-        // });
         // subprocess.stderr.on("close", () => {
         //     console.log("Closed");
         // });

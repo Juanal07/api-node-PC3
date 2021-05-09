@@ -1,6 +1,6 @@
-# from bs4 import BeautifulSoup
-# import requests
-# import re
+from bs4 import BeautifulSoup
+import requests
+import re
 import sys
 import json
 def scraping():
@@ -63,8 +63,8 @@ def ws_texto(titulo):
        print('No se pudo scrapear')
    return None    
 
-# respuesta = True
-# print(respuesta, end="")
-# """ print("Hola Juan", end="") """
-# sys.stdout.flush()
+respuesta = True
+print(respuesta, end="")
+""" print("Hola Juan", end="") """
+sys.stdout.flush()
 

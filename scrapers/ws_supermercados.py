@@ -2,6 +2,16 @@ import requests
 import re
 from bs4 import BeautifulSoup
 import sys
+import json
+import warnings
+
+warnings.filterwarnings('ignore')
+
+class DevNull:
+    def write(self, msg):
+        pass
+
+sys.stderr = DevNull()
 
 # TODO: mirar el tema de las tildes
 def scraping(provincia, municipio):
@@ -81,7 +91,7 @@ def searchMunicipios(URL,name,linkProvincia, municipio):
     # municipio = input("Introduce el nombre del municipio (con minúsculas y tilde): ")
     for item in tablaMunicipios:
         name = item.text
-        name = name.lower()
+        # name = name.lower()
         name = name[8:]
         # print(name)
         if (name == municipio):
@@ -118,16 +128,20 @@ def showSupermercados(URL, link):
             supermercados.append(tupla)
         json = json[:-1]
         json += ']'
-
+        print(json)
+        # print("hola", end="")
+        # return json
     except:
         # print("\nERROR en ", linkMunicipio, "\n")
         error=1 #valor random
-
     # if len(supermercados)==0:
     #     print("No se encontraron supermercados cercanos en ese municipio")
     
     #print(supermercados)
     # print(json)
-    # sys.stdout.flush()
-print("HI THERE")
+#     # sys.stdout.flush()
+# scraping('murcia', 'alcantarilla')
+scraping(sys.argv[1], sys.argv[0])
+# print(respuesta)
+""" print("Hola Juan", end="") """
 sys.stdout.flush()
