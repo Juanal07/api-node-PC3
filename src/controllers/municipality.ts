@@ -38,18 +38,17 @@ async function scrapings(req: any, res: any) {
         const nombre = result[0].name;
         console.log(nombre);
 
-        const subprocess = spawn("python", [
-            "-u",
-            path.join(__dirname, "../../scrapers/ws_noticias.py"),
-            nombre,
-        ]);
+        const subprocess = spawn("python", ["scrapers/ws_noticias.py", nombre,]);
         // print output of script
         subprocess.stdout.on("data", (data) => {
-            console.log(`data:${data}`);
-            res.send(data);
+            const texto = '{"data": "' + data;
+            const texto2 = texto.concat('"}')
+            console.log(texto2);
+            const respuesta = JSON.parse(texto2);
+            res.send(respuesta);
         });
         subprocess.stderr.on("data", (data) => {
-            console.log(`error:${data}`);
+            /* console.log(`error:${data}`); */
         });
         subprocess.stderr.on("close", () => {
             console.log("Closed");
