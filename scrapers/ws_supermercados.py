@@ -140,8 +140,8 @@ def showSupermercados(URL, link):
     #print(supermercados)
     # print(json)
 #     # sys.stdout.flush()
-# scraping('murcia', 'alcantarilla')
-scraping(sys.argv[1], sys.argv[0])
-# print(respuesta)
+# scraping('murcia', 'Alcantarilla')
+scraping(sys.argv[2], sys.argv[1])
+# print('{"provincia": "' + sys.argv[2] + '", "municipio": "' + sys.argv[1] + '"}')
 """ print("Hola Juan", end="") """
 sys.stdout.flush()

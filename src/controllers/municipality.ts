@@ -37,6 +37,8 @@ async function scrapings(req: any, res: any) {
         const result = await pool.query(sqlQuery, [idMunicipality]);
         const nombre = result[0].name;
         const provincia = result[0].province;
+        // const nombre = 'Alcantarilla';
+        // const provincia = 'murcia';
         console.log(provincia)
         console.log(nombre);
 
