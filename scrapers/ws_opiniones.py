@@ -1,17 +1,36 @@
 import requests
 import re
 from bs4 import BeautifulSoup
+import sys
 
-def scraping():
+media=0
+i=0
+def scraping(provincia, pueblo):
 
-    provincia = input("Introduzca provincia: (minúsculas y con tildes)")
-    pueblo = input("Introduzca municipio: (minúsculas y con tildes)")
+    provincia = provincia.lower()
+    provincia = re.sub('provincia de ','',provincia)
+    if provincia =="a coruña":
+        provincia="la coruña"
+    elif provincia =="araba":
+        provincia="álava"
+    elif provincia =="bizkaia":
+        provincia="vizcaya"
+    elif provincia =="girona":
+        provincia="gerona"
+    elif provincia =="lleida":
+        provincia="lérida"
+    elif provincia =="ourense":
+        provincia="orense"
+    elif provincia =="vàlencia":
+        provincia="valencia"
+    pueblo = pueblo.lower()
+    # provincia = input("Introduzca provincia: (minúsculas y con tildes)")
+    # pueblo = input("Introduzca municipio: (minúsculas y con tildes)")
     URL = 'http://www.buscorestaurantes.com/filtrar-ubicacion-en/'+provincia
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, 'html.parser')
     soup = soup.find(attrs={"class": "block-level"})
     soup = soup.find_all('li')
-    # TODO refactor a while
     for item in soup:
         link = item.find('a')['href']
         name = item.find('a').text
@@ -39,18 +58,44 @@ def ws_pueblo(link):
     return None
 
 def ws_restaurant(link):
-
+    global media
+    global i
     URL = link
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, 'html.parser')
     nombre = soup.find(attrs={"itemprop": "name"}).text
-    print('+Restaurante: ',nombre)
-    print('--------------')
+    # print('+Restaurante: ',nombre)
+    # print('--------------')
     soup = soup.find_all(attrs={"class": "excerpt"})
     for item in soup:
         opinion = item.text
         opinion = re.sub('\n\s*', '', opinion)
-        print('-Opinión: ', opinion)
-        print('--------------')
+        # print('-Opinión: ', opinion)
+        # print(getSentiment(opinion))
+        media+=getSentiment(opinion)
+        i+=1
+        # print('--------------')
     return None
 
+from textblob import TextBlob
+
+def getSentiment(textInput):
+    analysis = TextBlob(textInput)
+    language = analysis.detect_language()
+    if language != 'en':
+        analysis= analysis.translate(to='en')
+    # print(analysis)
+    analysisPol = analysis.sentiment.polarity
+    analysisSub = analysis.sentiment.subjectivity
+    # print(f'Tiene una polaridad de {analysisPol} y una subjectibidad de {analysisSub}')
+    return analysisPol
+
+scraping(sys.argv[2], sys.argv[1])
+# scraping('provincia de malaga','Archidona')
+try:
+    media=media/i
+    print('{"media": '+str(round(media, 2))+'}')
+except:
+    print('{"media": "No info"}')
+
+sys.stdout.flush()

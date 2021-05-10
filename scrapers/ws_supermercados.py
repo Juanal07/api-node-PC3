@@ -91,7 +91,8 @@ def searchMunicipios(URL,name,linkProvincia, municipio):
     # municipio = input("Introduce el nombre del municipio (con minúsculas y tilde): ")
     for item in tablaMunicipios:
         name = item.text
-        # name = name.lower()
+        name = name.lower()
+        municipio = municipio.lower()
         name = name[8:]
         # print(name)
         if (name == municipio):
@@ -143,5 +144,4 @@ def showSupermercados(URL, link):
 # scraping('murcia', 'Alcantarilla')
 scraping(sys.argv[2], sys.argv[1])
 # print('{"provincia": "' + sys.argv[2] + '", "municipio": "' + sys.argv[1] + '"}')
-""" print("Hola Juan", end="") """
 sys.stdout.flush()

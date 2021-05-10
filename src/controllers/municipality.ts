@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken";
 import { pool } from "../database";
 import middleware from "../middlewares/middleware";
 import { spawn } from "child_process";
-const path = require("path");
 
 async function municipality(req: any, res: any) {
     try {
@@ -22,12 +21,6 @@ async function municipality(req: any, res: any) {
     }
 }
 
-// function runScript() {
-//     return spawn("python", [
-//         "-u",
-//         path.join(__dirname, "../scrapers/ws_noticias.py"),
-//     ]);
-// }
 async function scrapings(req: any, res: any) {
     try {
         console.log("hoooola");
@@ -37,38 +30,44 @@ async function scrapings(req: any, res: any) {
         const result = await pool.query(sqlQuery, [idMunicipality]);
         const nombre = result[0].name;
         const provincia = result[0].province;
-        // const nombre = 'Alcantarilla';
-        // const provincia = 'murcia';
-        console.log(provincia)
+        // const nombre = "Mula";
+        // const provincia = "murcia";
+        console.log(provincia);
         console.log(nombre);
 
-        // const subprocessNoticias = spawn("python", ["scrapers/ws_noticias.py", nombre,]);
-        const subprocessSupermercados = spawn("python", ["scrapers/ws_supermercados.py", nombre, provincia]);
-        // print output of script
-        // subprocessNoticias.stdout.on("data", (data) => {
-        //     const texto = '{"data": "' + data;
-        //     const texto2 = texto.concat('"}')
-        //     console.log(texto2);
-        //     const respuesta = JSON.parse(texto2);
-        //     res.send(respuesta);
-        // });
-        subprocessSupermercados.stdout.on("data", (data) => {
-            // const texto = '{"data": "' + data;
-            // const texto2 = texto.concat('"}')
-            // console.log(texto2);
+        const subprocessNoticias = spawn("python", [
+            "scrapers/ws_noticias.py",
+            nombre,
+        ]);
+        const subprocessSupermercados = spawn("python", [
+            "scrapers/ws_supermercados.py",
+            nombre,
+            provincia,
+        ]);
+        const subprocessRestaurantes = spawn("python", [
+            "scrapers/ws_opiniones.py",
+            nombre,
+            provincia,
+        ]);
+        subprocessNoticias.stdout.on("data", (data) => {
             const respuesta = JSON.parse(data);
-            console.log(data)
+            console.log(respuesta);
+            // res.send(respuesta);
+        });
+        subprocessSupermercados.stdout.on("data", (data) => {
+            const respuesta = JSON.parse(data);
+            console.log(respuesta);
+            // res.send(respuesta);
+        });
+        subprocessRestaurantes.stdout.on("data", (data) => {
+            const respuesta = JSON.parse(data);
+            console.log(respuesta);
             res.send(respuesta);
         });
-        // subprocess.stderr.on("close", () => {
+        // subprocessNoticias.stderr.on("close", () => {
         //     console.log("Closed");
         // });
         // res.status(200).json(result[0]);
-
-        // const pythonProcess = spawn("python", ["../scrapers/ws_noticias.py"]);
-        // pythonProcess.stdout.on("data", (data) => {
-        //     res.send(data);
-        // });
     } catch (err) {
         console.log("Error al obtener municipio", err);
         res.status(400).send(err);

@@ -63,8 +63,6 @@ def ws_texto(titulo):
        print('No se pudo scrapear')
    return None    
 
-respuesta = True
-print(respuesta, end="")
-""" print("Hola Juan", end="") """
+print('{"msg": "'+str(sys.argv[1])+'"}')
 sys.stdout.flush()
 
