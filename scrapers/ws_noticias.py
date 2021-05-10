@@ -63,6 +63,6 @@ def ws_texto(titulo):
        print('No se pudo scrapear')
    return None    
 
-print('{"msg": "'+str(sys.argv[1])+'"}')
+print('{"despoblacion": "'+str(sys.argv[1])+'"}')
 sys.stdout.flush()
 
