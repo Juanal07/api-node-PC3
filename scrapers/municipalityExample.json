@@ -1,0 +1,36 @@
+{
+    "name": "nombre",
+    "shield": "link",
+    "region": "region",
+    "province": "provincia",
+    "ccaa": "comunidad",
+    "population": 1000,
+    "surface": 7.0,
+    "altitude": 170.0,
+    "density": 56.5,
+    "media": 4.5,
+    "unpopulated": 1,
+    "supermarkets": [{
+        "nombre": "Spar SPAR",
+        "direccion": "CALLE  SAN FRANCISCO, 2",
+        "distancia": 8
+    }],
+    "stations": [{
+            "name": "delicias",
+            "address": "jdjjd",
+            "cercanias": 1,
+            "feve": 0
+        },
+        {
+            "name": "delicias",
+            "address": "jdjjd",
+            "cercanias": 1,
+            "feve": 0
+        }
+    ],
+    "medicalcenters": [{
+        "name": "piramides",
+        "type": "primaria",
+        "address": "fiuobfi"
+    }]
+}
