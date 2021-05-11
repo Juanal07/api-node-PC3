@@ -70,8 +70,9 @@ def searchProvincias(URL, provincia, municipio):
             searchMunicipios(URL,name,link, municipio)
             break
 
-    # if resultadoProvincia==False:
-        # print("Provincia no encontrada")    
+    if resultadoProvincia==False:
+        # print("Provincia no encontrada")
+        print('[]')
 
 
 def searchMunicipios(URL,name,linkProvincia, municipio):
@@ -100,8 +101,9 @@ def searchMunicipios(URL,name,linkProvincia, municipio):
             resultadoMunicipio=True
             showSupermercados(URL,link)
             break
-    # if resultadoMunicipio==False:
-    #     print("Municipio no encontrado") 
+    if resultadoMunicipio==False:
+        # print("Municipio no encontrado")
+        print('[]')
 
 
 def showSupermercados(URL, link):
