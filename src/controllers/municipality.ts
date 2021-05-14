@@ -59,11 +59,11 @@ async function estaciones(req: any, res: any){
         // console.log(cercanias)
         // console.log(feve)
         // console.log(result)
-        res.json(result)
-        // res.status(200).json({
-        //     status: 200,
-        //     data: { nombre, direccion, cercanias, feve},
-        //     });
+        // res.json(result)
+        res.status(200).json({
+            status: 200,
+            data: result,
+            });
 
     } catch (err) {
     console.log("Error al obtener municipio", err);
@@ -77,11 +77,11 @@ async function centrosMedicos(req: any, res: any){
         const sqlQuery = "SELECT name, type, address FROM medicalcenter WHERE idMunicipality = ?";
         const result = await pool.query(sqlQuery, [idMunicipality]);
         console.log(result)
-        res.json(result)
-        // res.status(200).json({
-        //     status: 200,
-        //     data: { nombre, direccion, cercanias, feve},
-        //     });
+        // res.json(result)
+        res.status(200).json({
+            status: 200,
+            data: result,
+            });
 
     } catch (err) {
     console.log("Error al obtener municipio", err);
@@ -106,7 +106,10 @@ async function supermercados(req: any, res: any){
         subprocessSupermercados.stdout.on("data", (data) => {
             const respuesta = JSON.parse(data);
             console.log(respuesta);
-            res.send(respuesta);
+            res.status(200).json({
+                status: 200,
+                data: respuesta,
+                });
         });
 
     } catch (err) {
@@ -132,9 +135,38 @@ async function restaurantes(req: any, res: any){
         subprocessRestaurantes.stdout.on("data", (data) => {
             const respuesta = JSON.parse(data);
             console.log(respuesta);
-            // gRes.data.push(respuesta);
-            res.json(respuesta);
-            // res.json(respuesta);
+            res.status(200).json({
+                status: 200,
+                data: respuesta,
+                });
+        });
+
+    } catch (err) {
+    console.log("Error al obtener municipio", err);
+    res.status(400).send(err);
+    }
+}
+
+async function noticias(req: any, res: any){
+    try{
+        // console.log("hoooola");
+        const { idMunicipality } = req.body;
+        // console.log(idMunicipality);
+        const sqlQuery = "SELECT * FROM municipality WHERE idMunicipality = ?";
+        const result = await pool.query(sqlQuery, [idMunicipality]);
+        const nombre = result[0].name;
+        // const provincia = result[0].province;
+        const subprocessNoticias = spawn("python", [
+            "scrapers/ws_noticias.py",
+            nombre,
+        ]);
+        subprocessNoticias.stdout.on("data", (data) => {
+            const respuesta = JSON.parse(data);
+            console.log(respuesta);
+            res.status(200).json({
+                status: 200,
+                data: respuesta,
+                });
         });
 
     } catch (err) {
@@ -203,4 +235,4 @@ async function scrapings(req: any, res: any) {
         res.status(400).send(err);
     }
 }
-export default { municipality, scrapings, infoPueblo, estaciones, centrosMedicos, supermercados, restaurantes};
+export default { municipality, scrapings, infoPueblo, estaciones, centrosMedicos, supermercados, restaurantes, noticias};

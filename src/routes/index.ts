@@ -20,6 +20,7 @@ router.post("/api/stations", municipality.estaciones);
 router.post("/api/medicalcenters", municipality.centrosMedicos);
 router.post("/api/supermarkets", municipality.supermercados);
 router.post("/api/restaurants", municipality.restaurantes);
+router.post("/api/news", municipality.noticias);
 
 router.post("/api/profile", middleware.verifyToken, infoUser.infoUser);
 
