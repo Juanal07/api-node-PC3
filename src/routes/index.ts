@@ -15,6 +15,11 @@ router.post("/api/login", auth.login);
 router.post("/api/register", auth.register);
 
 router.post("/api/scrapings", municipality.scrapings);
+router.post("/api/infoPueblo", municipality.infoPueblo);
+router.post("/api/stations", municipality.estaciones);
+router.post("/api/medicalcenters", municipality.centrosMedicos);
+router.post("/api/supermarkets", municipality.supermercados);
+router.post("/api/restaurants", municipality.restaurantes);
 
 router.post("/api/profile", middleware.verifyToken, infoUser.infoUser);
 

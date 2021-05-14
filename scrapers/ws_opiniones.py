@@ -96,6 +96,6 @@ try:
     media=media/i
     print('{"media": '+str(round(media, 2))+'}')
 except:
-    print('{"media": "No info"}')
+    print('{"media": 2}') #2 = ERROR para insercción en BBDD
 
 sys.stdout.flush()
