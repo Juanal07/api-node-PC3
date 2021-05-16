@@ -21,6 +21,8 @@ async function municipality(req: any, res: any) {
     }
 }
 
+//Solucionar 
+
 async function busqueda(req: any, res: any) {
     try {
         const { idMunicipality } = req.body;
@@ -40,7 +42,7 @@ async function busqueda(req: any, res: any) {
         if (result[0] == null) {
             const insertNullQuery =
                 "INSERT INTO search (date, expDate) VALUES (NOW(),DATE_ADD(NOW(),interval 1 week)";
-            const result = await pool.query(insertNullQuery);
+            await pool.query(insertNullQuery);
             //Datos de la tabla municipality
             const idSearch = "SELECT idsearch FROM search ORDER BY idSearch DESC LIMIT 1";
             const busqueda = await pool.query(idSearch);
@@ -52,14 +54,26 @@ async function busqueda(req: any, res: any) {
         } else {
             const insertQuery =
                 "INSERT INTO search (searcher, idMunicipality, nRestaurants, media, unpopulated, date, expDate) VALUES (?,?,?,?,?,now(),?)";
-            const result = await pool.query(insertQuery, [
+            await pool.query(insertQuery, [
                 idUser,
                 idMunicipality,
                 nRestaurants,
                 media,
                 unpopulated,
-                expDate,
+                expDate
             ]);
+            console.log(idSearch)
+            //Obtenermos el idSearch de la nueva busqueda
+            const newIdSearch =
+                "SELECT idSearch FROM search WHERE idMunicipality = ? ORDER BY idSearch DESC LIMIT 1";
+            const idNueva = await pool.query(newIdSearch, [idMunicipality]);
+            // console.log(idNueva[0])
+            const newID = idNueva[0].idSearch
+            console.log(newID)
+            //Se actualiza el idSearch de la tabla de supermercados para no duplicar los datos
+            const updateSupermarket = 
+                "UPDATE supermarket SET idSearch = ? WHERE idSearch = ?";
+            await pool.query(updateSupermarket, [newID, idSearch]);
             //Datos de la tabla municipality
             const municipio = "SELECT * FROM municipality WHERE idMunicipality = ?";
             const municipality = await pool.query(municipio, [idMunicipality]);
