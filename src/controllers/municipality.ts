@@ -21,8 +21,64 @@ async function municipality(req: any, res: any) {
     }
 }
 
-async function infoPueblo(req: any, res: any){
-    try{
+async function busqueda(req: any, res: any) {
+    try {
+        const { idMunicipality } = req.body;
+        const sqlQuery =
+            "SELECT * FROM search WHERE idMunicipality = ? and expDate > now() ORDER BY date DESC LIMIT 1";
+        const result = await pool.query(sqlQuery, [idMunicipality]);
+
+        const idSearch = result[0].idSearch;
+        const nRestaurants = result[0].nRestaurants;
+        const media = result[0].media;
+        const unpopulated = result[0].unpopulated;
+        const date = result[0].date;
+        const expDate = result[0].expDate;
+
+        const idUser = 25;
+
+        if (result[0] == null) {
+            // insert
+            // select
+            // devolver el idSearch
+            res.status(200).json({});
+        } else {
+            const sqlQuery =
+                "INSERT INTO search (searcher, idMunicipality, nRestaurants, media, unpopulated, date, expDate) VALUES (?,?,?,?,?,now(),?)";
+            const result = await pool.query(sqlQuery, [
+                idUser,
+                idMunicipality,
+                nRestaurants,
+                media,
+                unpopulated,
+                expDate,
+            ]);
+            res.status(200).json({
+                status: 200,
+                data: {
+                    name: "nombre",
+                    shield: "link",
+                    region: "region",
+                    province: "provincia",
+                    ccaa: "comunidad",
+                    population: 1000,
+                    surface: 7.0,
+                    altitude: 170.0,
+                    density: 56.5,
+                    nRestaurants: nRestaurants,
+                    media: media,
+                    unpopulated: unpopulated,
+                    supermarkets: supermarkets,
+                    stations: stations,
+                    medicalcenters: medicalcenters,
+                },
+            });
+        }
+    } catch (err) {}
+}
+
+async function infoPueblo(req: any, res: any) {
+    try {
         const { idMunicipality } = req.body;
         const sqlQuery = "SELECT * FROM municipality WHERE idMunicipality = ?";
         const result = await pool.query(sqlQuery, [idMunicipality]);
@@ -37,18 +93,29 @@ async function infoPueblo(req: any, res: any){
         const densidad = result[0].density;
         res.status(200).json({
             status: 200,
-            data: { nombre, escudo, region, provincia, ccaa, poblacion, superficie, altitud, densidad},
-            });
+            data: {
+                nombre,
+                escudo,
+                region,
+                provincia,
+                ccaa,
+                poblacion,
+                superficie,
+                altitud,
+                densidad,
+            },
+        });
     } catch (err) {
-    console.log("Error al obtener municipio", err);
-    res.status(400).send(err);
+        console.log("Error al obtener municipio", err);
+        res.status(400).send(err);
     }
 }
 
-async function estaciones(req: any, res: any){
-    try{
+async function estaciones(req: any, res: any) {
+    try {
         const { idMunicipality } = req.body;
-        const sqlQuery = "SELECT name, address, cercanias, feve FROM station WHERE idMunicipality = ?";
+        const sqlQuery =
+            "SELECT name, address, cercanias, feve FROM station WHERE idMunicipality = ?";
         const result = await pool.query(sqlQuery, [idMunicipality]);
         // const nombre = result[0].name;
         // const direccion = result[0].address;
@@ -63,34 +130,33 @@ async function estaciones(req: any, res: any){
         res.status(200).json({
             status: 200,
             data: result,
-            });
-
+        });
     } catch (err) {
-    console.log("Error al obtener municipio", err);
-    res.status(400).send(err);
+        console.log("Error al obtener municipio", err);
+        res.status(400).send(err);
     }
 }
 
-async function centrosMedicos(req: any, res: any){
-    try{
+async function centrosMedicos(req: any, res: any) {
+    try {
         const { idMunicipality } = req.body;
-        const sqlQuery = "SELECT name, type, address FROM medicalcenter WHERE idMunicipality = ?";
+        const sqlQuery =
+            "SELECT name, type, address FROM medicalcenter WHERE idMunicipality = ?";
         const result = await pool.query(sqlQuery, [idMunicipality]);
-        console.log(result)
+        console.log(result);
         // res.json(result)
         res.status(200).json({
             status: 200,
             data: result,
-            });
-
+        });
     } catch (err) {
-    console.log("Error al obtener municipio", err);
-    res.status(400).send(err);
+        console.log("Error al obtener municipio", err);
+        res.status(400).send(err);
     }
 }
 
-async function supermercados(req: any, res: any){
-    try{
+async function supermercados(req: any, res: any) {
+    try {
         // console.log("hoooola");
         const { idMunicipality } = req.body;
         // console.log(idMunicipality);
@@ -109,17 +175,16 @@ async function supermercados(req: any, res: any){
             res.status(200).json({
                 status: 200,
                 data: respuesta,
-                });
+            });
         });
-
     } catch (err) {
-    console.log("Error al obtener municipio", err);
-    res.status(400).send(err);
+        console.log("Error al obtener municipio", err);
+        res.status(400).send(err);
     }
 }
 
-async function restaurantes(req: any, res: any){
-    try{
+async function restaurantes(req: any, res: any) {
+    try {
         // console.log("hoooola");
         const { idMunicipality } = req.body;
         // console.log(idMunicipality);
@@ -138,17 +203,16 @@ async function restaurantes(req: any, res: any){
             res.status(200).json({
                 status: 200,
                 data: respuesta,
-                });
+            });
         });
-
     } catch (err) {
-    console.log("Error al obtener municipio", err);
-    res.status(400).send(err);
+        console.log("Error al obtener municipio", err);
+        res.status(400).send(err);
     }
 }
 
-async function noticias(req: any, res: any){
-    try{
+async function noticias(req: any, res: any) {
+    try {
         // console.log("hoooola");
         const { idMunicipality } = req.body;
         // console.log(idMunicipality);
@@ -166,12 +230,11 @@ async function noticias(req: any, res: any){
             res.status(200).json({
                 status: 200,
                 data: respuesta,
-                });
+            });
         });
-
     } catch (err) {
-    console.log("Error al obtener municipio", err);
-    res.status(400).send(err);
+        console.log("Error al obtener municipio", err);
+        res.status(400).send(err);
     }
 }
 
@@ -235,4 +298,13 @@ async function scrapings(req: any, res: any) {
         res.status(400).send(err);
     }
 }
-export default { municipality, scrapings, infoPueblo, estaciones, centrosMedicos, supermercados, restaurantes, noticias};
+export default {
+    municipality,
+    scrapings,
+    infoPueblo,
+    estaciones,
+    centrosMedicos,
+    supermercados,
+    restaurantes,
+    noticias,
+};
