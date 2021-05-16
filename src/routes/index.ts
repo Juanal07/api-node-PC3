@@ -15,6 +15,7 @@ router.post("/api/login", auth.login);
 router.post("/api/register", auth.register);
 
 router.post("/api/scrapings", municipality.scrapings);
+router.post("/api/busqueda", municipality.busqueda);
 router.post("/api/infoPueblo", municipality.infoPueblo);
 router.post("/api/stations", municipality.estaciones);
 router.post("/api/medicalcenters", municipality.centrosMedicos);

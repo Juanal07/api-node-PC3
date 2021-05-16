@@ -24,9 +24,9 @@ async function municipality(req: any, res: any) {
 async function busqueda(req: any, res: any) {
     try {
         const { idMunicipality } = req.body;
-        const sqlQuery =
+        const searchQuery =
             "SELECT * FROM search WHERE idMunicipality = ? and expDate > now() ORDER BY date DESC LIMIT 1";
-        const result = await pool.query(sqlQuery, [idMunicipality]);
+        const result = await pool.query(searchQuery, [idMunicipality]);
 
         const idSearch = result[0].idSearch;
         const nRestaurants = result[0].nRestaurants;
@@ -38,14 +38,21 @@ async function busqueda(req: any, res: any) {
         const idUser = 25;
 
         if (result[0] == null) {
-            // insert
-            // select
+            const insertNullQuery =
+                "INSERT INTO search (date, expDate) VALUES (NOW(),DATE_ADD(NOW(),interval 1 week)";
+            const result = await pool.query(insertNullQuery);
+            //Datos de la tabla municipality
+            const idSearch = "SELECT idsearch FROM search ORDER BY idSearch DESC LIMIT 1";
+            const busqueda = await pool.query(idSearch);
             // devolver el idSearch
-            res.status(200).json({});
+            res.status(200).json({
+                status: 206,
+                data: busqueda,
+            });
         } else {
-            const sqlQuery =
+            const insertQuery =
                 "INSERT INTO search (searcher, idMunicipality, nRestaurants, media, unpopulated, date, expDate) VALUES (?,?,?,?,?,now(),?)";
-            const result = await pool.query(sqlQuery, [
+            const result = await pool.query(insertQuery, [
                 idUser,
                 idMunicipality,
                 nRestaurants,
@@ -53,18 +60,30 @@ async function busqueda(req: any, res: any) {
                 unpopulated,
                 expDate,
             ]);
+            //Datos de la tabla municipality
+            const municipio = "SELECT * FROM municipality WHERE idMunicipality = ?";
+            const municipality = await pool.query(municipio, [idMunicipality]);
+            //Datos de la tabla supermarket
+            const supermercados = "SELECT * FROM supermarket WHERE idSearch = ?";
+            const supermarkets = await pool.query(supermercados, [idSearch]);
+            //Datos de la tabla station
+            const estaciones = "SELECT * FROM station WHERE idMunicipality = ?";
+            const stations = await pool.query(estaciones, [idMunicipality]);
+            //Datos de la tabla medicalcenter
+            const centrosMedicos = "SELECT * FROM medicalcenter WHERE idMunicipality = ?";
+            const medicalcenters = await pool.query(centrosMedicos, [idMunicipality]);
             res.status(200).json({
                 status: 200,
                 data: {
-                    name: "nombre",
-                    shield: "link",
-                    region: "region",
-                    province: "provincia",
-                    ccaa: "comunidad",
-                    population: 1000,
-                    surface: 7.0,
-                    altitude: 170.0,
-                    density: 56.5,
+                    name: municipality[0].name,
+                    shield: municipality[0].shield,
+                    region: municipality[0].region,
+                    province: municipality[0].province,
+                    ccaa: municipality[0].ccaa,
+                    population: municipality[0].population,
+                    surface: municipality[0].surface,
+                    altitude: municipality[0].altitude,
+                    density: municipality[0].desity,
                     nRestaurants: nRestaurants,
                     media: media,
                     unpopulated: unpopulated,
@@ -141,7 +160,7 @@ async function centrosMedicos(req: any, res: any) {
     try {
         const { idMunicipality } = req.body;
         const sqlQuery =
-            "SELECT name, type, address FROM medicalcenter WHERE idMunicipality = ?";
+            "SELECT name, type, address FROM v WHERE idMunicipality = ?";
         const result = await pool.query(sqlQuery, [idMunicipality]);
         console.log(result);
         // res.json(result)
@@ -307,4 +326,5 @@ export default {
     supermercados,
     restaurantes,
     noticias,
+    busqueda,
 };
