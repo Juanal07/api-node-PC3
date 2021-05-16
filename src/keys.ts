@@ -5,6 +5,6 @@ module.exports = {
         password: "Softlusion",
         database: "prsoftlusion",
         port: "3306",
-        connectionLimit: 2,
+        connectionLimit: 1,
     },
 };

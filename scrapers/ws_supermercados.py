@@ -141,7 +141,7 @@ def showSupermercados(URL, link):
     #     print("No se encontraron supermercados cercanos en ese municipio")
     
     #print(supermercados)
-    # print(json)
+# print(json)
 #     # sys.stdout.flush()
 # scraping('murcia', 'Alcantarilla')
 scraping(sys.argv[2], sys.argv[1])

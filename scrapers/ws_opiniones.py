@@ -94,8 +94,8 @@ scraping(sys.argv[2], sys.argv[1])
 # scraping('provincia de malaga','Archidona')
 try:
     media=media/i
-    print('{"media": '+str(round(media, 2))+'}')
+    print('{"media": '+str(round(media, 2))+', "nRestaurants": 23 }')
 except:
-    print('{"media": 2}') #2 = ERROR para insercción en BBDD
+    print('{"media": 2, "nRestaurants": 23 }') #2 = ERROR para insercción en BBDD
 
 sys.stdout.flush()
