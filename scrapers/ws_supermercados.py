@@ -129,7 +129,7 @@ def showSupermercados(URL, link):
             # print(tupla)
             json += ('{"nombre": "'+str(nombre)+'","direccion": "'+str(direccion)+'","distancia": '+str(distancia)+'},')
             supermercados.append(tupla)
-        json = json[:-1]
+        json = json[:-1] #para quitar la coma
         json += ']'
         print(json)
         # print("hola", end="")

@@ -1,8 +1,8 @@
-import express from "express";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+//import express from "express";
+//import bcrypt from "bcrypt";
+//import jwt from "jsonwebtoken";
 import { pool } from "../database";
-import middleware from "../middlewares/middleware";
+//import middleware from "../middlewares/middleware";
 import { spawn } from "child_process";
 
 async function municipality(req: any, res: any) {
@@ -34,29 +34,34 @@ async function scrapings(req: any, res: any) {
         // const provincia = "murcia";
         // console.log(provincia);
         // console.log(nombre);
-        console.log(result[0]);
-        var gRes = { data: [] };
-        let newData = { p1: "hola" };
-        gRes.data.push(newData);
-        gRes.data.push(result[0]);
+        //console.log(result[0]);
+        //var gRes = { data: [] };
+        //let newData = { p1: "hola" };
+        //gRes.data.push(newData);
+        //gRes.data.push(result[0]);
 
-        const subprocessNoticias = spawn("python3", [
+        const subprocessNoticias = spawn("python", [
             "scrapers/ws_noticias.py",
             nombre,
         ]);
-        const subprocessSupermercados = spawn("python3", [
+        const subprocessSupermercados = spawn("python", [
             "scrapers/ws_supermercados.py",
             nombre,
             provincia,
         ]);
-        const subprocessRestaurantes = spawn("python3", [
+        const subprocessRestaurantes = spawn("python", [
             "scrapers/ws_opiniones.py",
             nombre,
             provincia,
         ]);
+        console.log('INICIO');
+        var noticiasJSON;
         subprocessNoticias.stdout.on("data", (data) => {
-            const respuesta = JSON.parse(data);
-            console.log(respuesta);
+            noticiasJSON = JSON.parse(data);
+            console.log(noticiasJSON);
+            const jsonFinal = {...result[0], ...noticiasJSON};
+            console.log(jsonFinal);
+            res.status(200).json(jsonFinal);
 
             // res.send(respuesta);
         });
@@ -68,17 +73,20 @@ async function scrapings(req: any, res: any) {
         subprocessRestaurantes.stdout.on("data", (data) => {
             const respuesta = JSON.parse(data);
             console.log(respuesta);
-            gRes.data.push(respuesta);
-            res.json(gRes);
+            //gRes.data.push(respuesta);
+            //res.json(gRes);
             // res.json(respuesta);
         });
+        console.log('FIN');
         // subprocessNoticias.stderr.on("close", () => {
         //     console.log("Closed");
         // });
-        // res.status(200).json(result[0]);
+        
     } catch (err) {
         console.log("Error al obtener municipio", err);
         res.status(400).send(err);
     }
 }
 export default { municipality, scrapings };
+
+//pruebas en este archivo 
