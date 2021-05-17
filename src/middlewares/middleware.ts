@@ -11,13 +11,17 @@ async function verifyToken(req: any, res: any, next: any) {
         req.token = bearerToken;
         await jwt.verify(req.token, "secret", (error: any, authData: any) => {
             if (error) {
-                res.sendStatus(403);
+                // res.sendStatus(403);
+                next();
             } else {
+                req.idUser = authData.db_idUser;
                 next();
             }
         });
     } else {
-        res.sendStatus(403);
+        // res.sendStatus(403);
+        next();
     }
 }
+
 export default { verifyToken };
