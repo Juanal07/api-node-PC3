@@ -273,10 +273,10 @@ async function noticias(req: any, res: any) {
         ]);
         subprocessNoticias.stdout.on("data", (data) => {
             const respuesta = JSON.parse(data);
-            console.log(respuesta['despoblacion']);
+            console.log(respuesta['populated']);
             const insertarNoticias =
                 "UPDATE search SET unpopulated = ? WHERE idSearch = ?";
-            pool.query(insertarNoticias, [respuesta['despoblacion'], idSearch]);
+            pool.query(insertarNoticias, [respuesta['populated'], idSearch]);
 
             res.status(200).json({
                 status: 200,
