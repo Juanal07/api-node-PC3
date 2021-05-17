@@ -5,6 +5,7 @@ import sys
 
 media=0
 i=0
+nRestaurants = 0
 def scraping(provincia, pueblo):
 
     provincia = provincia.lower()
@@ -43,7 +44,7 @@ def scraping(provincia, pueblo):
     return None 
 
 def ws_pueblo(link):
-
+    global nRestaurants
     while link != '':
         URL = link
         page = requests.get(URL)
@@ -51,6 +52,7 @@ def ws_pueblo(link):
         lista = soup.find(attrs={"class": "listado-items"})
         lista = lista.find_all(attrs={"class": "listing-item-title"})
         for item in lista:
+            nRestaurants+=1
             link = item.a['href']
             ws_restaurant(link)
         nextPage = soup.find(attrs={"class": "next"}).a['href']
@@ -91,11 +93,12 @@ def getSentiment(textInput):
     return analysisPol
 
 scraping(sys.argv[2], sys.argv[1])
-# scraping('provincia de malaga','Archidona')
+# scraping('provincia de malaga','Torrox')
+
 try:
     media=media/i
-    print('{"media": '+str(round(media, 2))+', "nRestaurants": 23 }')
+    print('{"media": '+str(round(media, 2))+', "nRestaurants": '+str(nRestaurants)+' }')
 except:
-    print('{"media": 2, "nRestaurants": 23 }') #2 = ERROR para insercción en BBDD
+    print('{"media": -10, "nRestaurants": -10}') #2 = ERROR para insercción en BBDD
 
 sys.stdout.flush()
