@@ -46,10 +46,11 @@ async function busqueda(req: any, res: any) {
             const idSearch =
                 "SELECT idsearch FROM search ORDER BY idSearch DESC LIMIT 1";
             const busqueda = await pool.query(idSearch);
+            console.log(busqueda[0].idsearch);
             // devolver el idSearch
             res.status(200).json({
                 status: 206,
-                data: busqueda,
+                data: { idearch: busqueda[0].idsearch, idMunicipality },
             });
         } else {
             const idSearch = result[0].idSearch;
