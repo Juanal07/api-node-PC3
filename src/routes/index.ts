@@ -24,5 +24,10 @@ router.post("/api/restaurants", municipality.restaurantes);
 router.post("/api/news", municipality.noticias);
 
 router.post("/api/profile", middleware.verifyToken, infoUser.infoUser);
+router.post(
+    "/api/profile/changeData",
+    middleware.verifyToken,
+    infoUser.changeData
+);
 
 module.exports = router;
