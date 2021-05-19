@@ -1,0 +1,12 @@
+matplotlib==3.3.3
+seaborn==0.11.1
+Flask_Cors==3.0.10
+mariadb==1.0.6
+requests==2.22.0
+textblob==0.15.3
+pandas==1.2.3
+nltk==3.5
+joblib==1.0.1
+Flask==1.1.2
+beautifulsoup4==4.9.3
+scikit_learn==0.24.2
