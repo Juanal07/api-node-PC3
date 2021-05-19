@@ -40,9 +40,10 @@ async function changeData(req: any, res: any) {
                 "UPDATE user SET name = ?, email = ? WHERE idUser = ?";
             await pool.query(sqlQuery, [name, email, idUser]);
             console.log("actualizado");
+            console.log(name);
             res.json({
                 status: 200,
-                data: {},
+                data: { name, email },
             });
         }
     } catch (err) {
