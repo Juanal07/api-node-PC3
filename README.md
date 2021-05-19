@@ -9,5 +9,6 @@ Node, npm and git is needed.
 ```cd api-node-PC3```
 ## Install dependencies
 ```npm install```
+```pip install requirements.txt``` 
 ## Run server
 ```npm run start```
