@@ -32,6 +32,7 @@ async function infoUser(req: any, res: any) {
 async function changeData(req: any, res: any) {
     try {
         const { name, email, idUser } = req.body;
+        console.log(idUser);
         if (idUser == "unverified") {
             console.log(idUser);
             res.status(403).send();
@@ -51,5 +52,40 @@ async function changeData(req: any, res: any) {
         res.status(400).send(err);
     }
 }
+async function changePsw(req: any, res: any) {
+    try {
+        console.log("holaa");
+        const { old_psw, new_psw, new_psw2, idUser } = req.body;
+        console.log(idUser);
+        if (idUser == "unverified") {
+            console.log(idUser);
+            res.status(403).send();
+        } else {
+            let sqlQuery = "SELECT password FROM user WHERE idUser = ?";
+            let bbdd_psw = await pool.query(sqlQuery, [idUser]);
+            const match = await bcrypt.compare(old_psw, bbdd_psw[0].password);
 
-export default { changeData, infoUser };
+            if (match && new_psw == new_psw2) {
+                const encryptedPassword = await bcrypt.hash(new_psw, 10);
+                const sqlQuery2 =
+                    "UPDATE user SET password = ? WHERE idUser = ?";
+                await pool.query(sqlQuery2, [encryptedPassword, idUser]);
+                console.log("actualizado");
+                res.json({
+                    status: 200,
+                    data: "actualizada contraseña",
+                });
+            } else {
+                res.json({
+                    status: 403,
+                    data: "contraseña equivocada",
+                });
+            }
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(400).send(err);
+    }
+}
+
+export default { changeData, infoUser, changePsw };

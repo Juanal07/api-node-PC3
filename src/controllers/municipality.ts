@@ -13,7 +13,7 @@ async function listaPueblos(req: any, res: any) {
         // const id = result[0].idMunicipality;
         // const nombre = result[0].name;
         // const provincia = result[0].province;
-        console.log(result)
+        console.log(result);
         res.status(200).json({
             status: 200,
             data: result,
@@ -24,7 +24,7 @@ async function listaPueblos(req: any, res: any) {
     }
 }
 
-//Solucionar 
+//Solucionar
 
 async function busqueda(req: any, res: any) {
     try {
@@ -32,18 +32,19 @@ async function busqueda(req: any, res: any) {
         const searchQuery =
             "SELECT * FROM search WHERE idMunicipality = ? and expDate > now() ORDER BY date DESC LIMIT 1";
         const result = await pool.query(searchQuery, [idMunicipality]);
-        console.log("Resultado de la consulta: " + result[0])
+        console.log("Resultado de la consulta: " + result[0]);
 
         const idUser = 25;
 
         if (result[0] == null) {
-            console.log("HOLAA", result[0] == null)
+            console.log("HOLAA", result[0] == null);
             const insertNullQuery =
                 "INSERT INTO search (idMunicipality, date, expDate) VALUES (?, NOW(),DATE_ADD(NOW(),interval 1 week))";
-            await pool.query(insertNullQuery,[idMunicipality]);
-            console.log("insertado")
+            await pool.query(insertNullQuery, [idMunicipality]);
+            console.log("insertado");
             //Datos de la tabla municipality
-            const idSearch = "SELECT idsearch FROM search ORDER BY idSearch DESC LIMIT 1";
+            const idSearch =
+                "SELECT idsearch FROM search ORDER BY idSearch DESC LIMIT 1";
             const busqueda = await pool.query(idSearch);
             // devolver el idSearch
             res.status(200).json({
@@ -65,32 +66,38 @@ async function busqueda(req: any, res: any) {
                 nRestaurants,
                 media,
                 unpopulated,
-                expDate
+                expDate,
             ]);
-            console.log(idSearch)
+            console.log(idSearch);
             //Obtenermos el idSearch de la nueva busqueda
             const newIdSearch =
                 "SELECT idSearch FROM search WHERE idMunicipality = ? ORDER BY idSearch DESC LIMIT 1";
             const idNueva = await pool.query(newIdSearch, [idMunicipality]);
             // console.log(idNueva[0])
-            const newID = idNueva[0].idSearch
-            console.log(newID)
+            const newID = idNueva[0].idSearch;
+            console.log(newID);
             //Se actualiza el idSearch de la tabla de supermercados para no duplicar los datos
-            const updateSupermarket = 
+            const updateSupermarket =
                 "UPDATE supermarket SET idSearch = ? WHERE idSearch = ?";
             await pool.query(updateSupermarket, [newID, idSearch]);
             //Datos de la tabla municipality
-            const municipio = "SELECT * FROM municipality WHERE idMunicipality = ?";
+            const municipio =
+                "SELECT * FROM municipality WHERE idMunicipality = ?";
             const municipality = await pool.query(municipio, [idMunicipality]);
             //Datos de la tabla supermarket
-            const supermercados = "SELECT name, address, distance FROM supermarket WHERE idSearch = ?";
+            const supermercados =
+                "SELECT name, address, distance FROM supermarket WHERE idSearch = ?";
             const supermarkets = await pool.query(supermercados, [newID]);
             //Datos de la tabla station
-            const estaciones = "SELECT cercanias, name, address FROM station WHERE idMunicipality = ?";
+            const estaciones =
+                "SELECT cercanias, name, address FROM station WHERE idMunicipality = ?";
             const stations = await pool.query(estaciones, [idMunicipality]);
             //Datos de la tabla medicalcenter
-            const centrosMedicos = "SELECT name, type, address FROM medicalcenter WHERE idMunicipality = ?";
-            const medicalcenters = await pool.query(centrosMedicos, [idMunicipality]);
+            const centrosMedicos =
+                "SELECT name, type, address FROM medicalcenter WHERE idMunicipality = ?";
+            const medicalcenters = await pool.query(centrosMedicos, [
+                idMunicipality,
+            ]);
             res.status(200).json({
                 status: 200,
                 data: {
@@ -114,7 +121,6 @@ async function busqueda(req: any, res: any) {
         }
     } catch (err) {}
 }
-
 
 async function infoPueblo(req: any, res: any) {
     try {
@@ -171,7 +177,7 @@ async function centrosMedicos(req: any, res: any) {
     try {
         const { idMunicipality } = req.body;
         const sqlQuery =
-            "SELECT name, type, address FROM v WHERE idMunicipality = ?";
+            "SELECT name, type, address FROM medicalcenter WHERE idMunicipality = ?";
         const result = await pool.query(sqlQuery, [idMunicipality]);
         console.log(result);
         res.status(200).json({
@@ -199,11 +205,16 @@ async function supermercados(req: any, res: any) {
         subprocessSupermercados.stdout.on("data", (data) => {
             const respuesta = JSON.parse(data);
             console.log(respuesta);
-            let i
-            for (i=0; i < respuesta.length; i++){
+            let i;
+            for (i = 0; i < respuesta.length; i++) {
                 const insertarNoticias =
                     "INSERT INTO supermarket (name, address, distance, idSearch) VALUES(?,?,?,?)";
-                pool.query(insertarNoticias, [respuesta[i]['nombre'],respuesta[i]['direccion'], respuesta[i]['distancia'], idSearch]);
+                pool.query(insertarNoticias, [
+                    respuesta[i]["nombre"],
+                    respuesta[i]["direccion"],
+                    respuesta[i]["distancia"],
+                    idSearch,
+                ]);
             }
             res.status(200).json({
                 status: 200,
@@ -223,7 +234,7 @@ async function restaurantes(req: any, res: any) {
         const result = await pool.query(sqlQuery, [idMunicipality]);
         const nombre = result[0].name;
         const provincia = result[0].province;
-        const subprocessRestaurantes = spawn("python", [
+        const subprocessRestaurantes = spawn("python3", [
             "scrapers/ws_opiniones.py",
             nombre,
             provincia,
@@ -233,7 +244,11 @@ async function restaurantes(req: any, res: any) {
             console.log(respuesta);
             const insertarNoticias =
                 "UPDATE search SET media = ?, nRestaurants = ? WHERE idSearch = ?";
-            pool.query(insertarNoticias, [respuesta['media'],respuesta['nRestaurants'], idSearch]);
+            pool.query(insertarNoticias, [
+                respuesta["media"],
+                respuesta["nRestaurants"],
+                idSearch,
+            ]);
             res.status(200).json({
                 status: 200,
                 data: respuesta,
@@ -247,7 +262,7 @@ async function restaurantes(req: any, res: any) {
 
 async function noticias(req: any, res: any) {
     try {
-        const { idMunicipality, idSearch} = req.body;
+        const { idMunicipality, idSearch } = req.body;
         const sqlQuery = "SELECT * FROM municipality WHERE idMunicipality = ?";
         const result = await pool.query(sqlQuery, [idMunicipality]);
         const nombre = result[0].name;
@@ -257,10 +272,10 @@ async function noticias(req: any, res: any) {
         ]);
         subprocessNoticias.stdout.on("data", (data) => {
             const respuesta = JSON.parse(data);
-            console.log(respuesta['populated']);
+            console.log(respuesta["populated"]);
             const insertarNoticias =
                 "UPDATE search SET unpopulated = ? WHERE idSearch = ?";
-            pool.query(insertarNoticias, [respuesta['populated'], idSearch]);
+            pool.query(insertarNoticias, [respuesta["populated"], idSearch]);
 
             res.status(200).json({
                 status: 200,
