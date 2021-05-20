@@ -8,7 +8,8 @@ import { spawn } from "child_process";
 async function listaPueblos(req: any, res: any) {
     try {
         const sqlQuery =
-            "SELECT idMunicipality, name, province FROM municipality";
+            // "SELECT idMunicipality, name, province FROM municipality";
+            "SELECT name FROM municipality";
         const result = await pool.query(sqlQuery);
         // const id = result[0].idMunicipality;
         // const nombre = result[0].name;
