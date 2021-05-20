@@ -2,14 +2,13 @@ import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { pool } from "../database";
-import middleware from "../middlewares/middleware";
 import { spawn } from "child_process";
 
 async function listaPueblos(req: any, res: any) {
     try {
         const sqlQuery =
             // "SELECT idMunicipality, name, province FROM municipality";
-            "SELECT name FROM municipality";
+            "SELECT idMunicipality, name, province FROM municipality";
         const result = await pool.query(sqlQuery);
         // const id = result[0].idMunicipality;
         // const nombre = result[0].name;
