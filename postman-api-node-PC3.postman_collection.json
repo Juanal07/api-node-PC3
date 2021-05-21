@@ -1,0 +1,427 @@
+{
+	"info": {
+		"_postman_id": "0cf12a9b-7b11-4916-ac8b-74b3cae26926",
+		"name": "api-node-PC3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/auth/login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"zxcv\",\n    \"password\": \"zxcv\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/auth/register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Juan\",\n    \"email\": \"a2adf@gmail.com\",\n    \"password\": \"1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/municipality/listVillages",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/municipality/listVillages",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"municipality",
+						"listVillages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/municipality/busqueda",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"idMunicipality\": 4711\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/municipality/busqueda",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"municipality",
+						"busqueda"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/municipality/infoPueblo",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"idMunicipality\": 4711\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/municipality/infoPueblo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"municipality",
+						"infoPueblo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/municipality/stations",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"idMunicipality\": 4711\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/municipality/stations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"municipality",
+						"stations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/municipality/medicalcenters",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"idMunicipality\": 4711\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/municipality/medicalcenters",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"municipality",
+						"medicalcenters"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/municipality/supermarkets",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"idMunicipality\": 8191,\n    \"idSearch\": 59\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/municipality/supermarkets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"municipality",
+						"supermarkets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/municipality/restaurants",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"idMunicipality\": 4011,\n    \"idSearch\": 61\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/municipality/restaurants",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"municipality",
+						"restaurants"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/municipality/news",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"idMunicipality\": 8191,\n    \"idSearch\": 59\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/municipality/news",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"municipality",
+						"news"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/profile/infoUser",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYl9pZFVzZXIiOjI2LCJpYXQiOjE2MjE0Mzg5MzMsImV4cCI6MTYyMTQ0MDczM30.WPlyl8ohK4U-7RTQ6MQtX99lLaZALU5GogfhwqjVmkY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/profile/infoUser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"profile",
+						"infoUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/profile/changeData",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYl9pZFVzZXIiOjI2LCJpYXQiOjE2MjE0NDM2ODgsImV4cCI6MTYyMTQ0NTQ4OH0.VYOMIYcNYOJbdxQLmwGF3HCFgyEf4tN3dkB0gBKI6PY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"pepe\",\n    \"email\": \"zxcv\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/profile/changeData",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"profile",
+						"changeData"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/profile/changePsw",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYl9pZFVzZXIiOjI2LCJpYXQiOjE2MjE0NDM2ODgsImV4cCI6MTYyMTQ0NTQ4OH0.VYOMIYcNYOJbdxQLmwGF3HCFgyEf4tN3dkB0gBKI6PY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"old_psw\": \"asdf\",\n    \"new_psw\": \"zxcv\",\n    \"new_psw2\": \"zxcv\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/profile/changePsw",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"profile",
+						"changePsw"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
