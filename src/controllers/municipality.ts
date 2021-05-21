@@ -235,7 +235,7 @@ async function restaurantes(req: any, res: any) {
         const result = await pool.query(sqlQuery, [idMunicipality]);
         const nombre = result[0].name;
         const provincia = result[0].province;
-        const subprocessRestaurantes = spawn("python3", [
+        const subprocessRestaurantes = spawn("python", [
             "scrapers/ws_opiniones.py",
             nombre,
             provincia,
