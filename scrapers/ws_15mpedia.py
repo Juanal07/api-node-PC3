@@ -107,7 +107,7 @@ def scraping():
             try:
                 cur.execute("INSERT INTO municipality(name,shield,region,province,ccaa,population,surface,"+
                 "altitude,density) VALUES (?,?,?,?,?,?,?,?,?)",
-                (municipioStr,escudo,comarca,provincia,CCAA,altitudFloat,superficieFloat,poblacionInt,densidadFloat))
+                (municipioStr,escudo,comarca,provincia,CCAA,poblacionInt,superficieFloat,altitudFloat,densidadFloat))
                 # conn.commit()
                 # print("Insertado")
             except mariadb.Error as e: 
