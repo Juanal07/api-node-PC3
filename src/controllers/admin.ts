@@ -40,7 +40,7 @@ async function user(req: any, res: any) {
         res.status(400).send(err);
     }
 }
-
+//falta token
 async function createUser(req: any, res: any) {
     try {
         const data = req.body;
@@ -79,10 +79,30 @@ async function deleteUser(req: any, res: any) {
         res.status(400).send(err);
     }
 }
+//falta  
+async function updateUser(req: any, res: any) {
+    try {
+        
+        const data = req.body;
+        const sqlQuery = "UPDATE user SET name = ?, email = ?, password = ? WHERE idUser = 28";
+        await pool.query(sqlQuery, [
+            [data.name],
+            [data.email],
+            [data.password],
+        ]);
+        res.status(200).json({ 
+            status:200, 
+        });   
+    } catch (err) {
+        console.log(err);
+        res.status(400).send(err);
+    }
+}
 
 export default {
     getUsers,
     user,
     createUser,
     deleteUser,
+    updateUser,
 };

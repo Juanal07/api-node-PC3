@@ -43,6 +43,7 @@ router.get("/api/admin/user-all", admin.getUsers);
 router.post("/api/admin/user", admin.user);
 router.post("/api/admin/createUser", admin.createUser);
 router.post("/api/admin/deleteUser", admin.deleteUser);
+router.post("/api/admin/updateUser", admin.updateUser);
 
 
 // router.post("/api/community", middleware.verifyToken, profile.community);
