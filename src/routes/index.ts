@@ -3,6 +3,8 @@ import express from "express";
 import auth from "../controllers/auth";
 import municipality from "../controllers/municipality";
 import profile from "../controllers/profile";
+import admin from "../controllers/admin";
+
 // import community from "../controllers/community";
 
 import middleware from "../middlewares/middleware";
@@ -36,6 +38,12 @@ router.post(
     middleware.verifyToken,
     profile.changePsw
 );
+
+router.get("/api/admin/user-all", admin.getUsers);
+router.post("/api/admin/user", admin.user);
+router.post("/api/admin/createUser", admin.createUser);
+router.post("/api/admin/deleteUser", admin.deleteUser);
+
 
 // router.post("/api/community", middleware.verifyToken, profile.community);
 
