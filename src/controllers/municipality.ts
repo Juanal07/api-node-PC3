@@ -43,14 +43,14 @@ async function busqueda(req: any, res: any) {
             await pool.query(insertNullQuery, [idMunicipality]);
             console.log("insertado");
             //Datos de la tabla municipality
-            const idSearch =
+            const idSearchConsulta =
                 "SELECT idsearch FROM search ORDER BY idSearch DESC LIMIT 1";
-            const busqueda = await pool.query(idSearch);
+            const busqueda = await pool.query(idSearchConsulta);
             console.log(busqueda[0].idsearch);
             // devolver el idSearch
             res.status(200).json({
                 status: 206,
-                data: { idearch: busqueda[0].idsearch, idMunicipality },
+                data: { idSearch: busqueda[0].idsearch, idMunicipality },
             });
         } else {
             const idSearch = result[0].idSearch;
@@ -128,28 +128,28 @@ async function infoPueblo(req: any, res: any) {
         const { idMunicipality } = req.body;
         const sqlQuery = "SELECT * FROM municipality WHERE idMunicipality = ?";
         const result = await pool.query(sqlQuery, [idMunicipality]);
-        const nombre = result[0].name;
-        const escudo = result[0].shield;
+        const name = result[0].name;
+        const shield = result[0].shield;
         const region = result[0].region;
-        const provincia = result[0].province;
+        const province = result[0].province;
         const ccaa = result[0].ccaa;
-        const poblacion = result[0].population;
-        const superficie = result[0].surface;
-        const altitud = result[0].altitude;
-        const densidad = result[0].density;
+        const population = result[0].population;
+        const surface = result[0].surface;
+        const altitude = result[0].altitude;
+        const density = result[0].density;
 
         res.status(200).json({
             status: 200,
             data: {
-                nombre,
-                escudo,
+                name,
+                shield,
                 region,
-                provincia,
+                province,
                 ccaa,
-                poblacion,
-                superficie,
-                altitud,
-                densidad,
+                population,
+                surface,
+                altitude,
+                density,
             },
         });
     } catch (err) {
