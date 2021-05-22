@@ -110,7 +110,7 @@ async function busqueda(req: any, res: any) {
                     population: municipality[0].population,
                     surface: municipality[0].surface,
                     altitude: municipality[0].altitude,
-                    density: municipality[0].desity,
+                    density: municipality[0].density,
                     nRestaurants: nRestaurants,
                     media: media,
                     unpopulated: unpopulated,
