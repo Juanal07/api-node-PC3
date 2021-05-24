@@ -110,40 +110,41 @@ def showSupermercados(URL, link):
     supermercados = []
     linkMunicipio = URL + link
     
-    try:
-        municipioPage = requests.get(linkMunicipio)
-        htmlMunicipio = BeautifulSoup(municipioPage.content, 'html.parser', from_encoding="utf-8")
-        # print("Encoding method :",htmlMunicipio.original_encoding)
-        divsSupers = htmlMunicipio.find_all('div', style="text-align:left;background:#E9F2F2;border:1px solid #bad8db;margin-left:5px;margin-bottom:5px;padding:5px;min-height:50px;width:300px;")
-        #print(divsSupers)
-        json ='['
-        for supermercado in divsSupers:
-        #obtengo los datos para cada uno de los supermercados
-            nombre = supermercado.find('b').text
-            divMunicipio = supermercado.contents
-            distancia = float(divMunicipio[3][13:len(divMunicipio[3])-3])
-            direccion = divMunicipio[8]
+    municipioPage = requests.get(linkMunicipio)
+    htmlMunicipio = BeautifulSoup(municipioPage.content, 'html.parser', from_encoding="utf-8")
+    # print("Encoding method :",htmlMunicipio.original_encoding)
+    divsSupers = htmlMunicipio.find_all('div', style="text-align:left;background:#E9F2F2;border:1px solid #bad8db;margin-left:5px;margin-bottom:5px;padding:5px;min-height:50px;width:300px;")
+    #print(divsSupers)
+    json ='['
+    for supermercado in divsSupers:
+    #obtengo los datos para cada uno de los supermercados
+        nombre = supermercado.find('b').text
+        divMunicipio = supermercado.contents
+        distancia = float(divMunicipio[3][13:len(divMunicipio[3])-3])
+        direccion = divMunicipio[8]
 
-            #meto datos en la lista: nombre del supermercado, direción, distancia y provincia
-            tupla = (nombre, direccion, distancia)
-            # print(tupla)
-            json += ('{"nombre": "'+str(nombre)+'","direccion": "'+str(direccion)+'","distancia": '+str(distancia)+'},')
-            supermercados.append(tupla)
-        json = json[:-1]
-        json += ']'
-        print(json)
-        # print("hola", end="")
-        # return json
-    except:
-        # print("\nERROR en ", linkMunicipio, "\n")
-        error=1 #valor random
-    # if len(supermercados)==0:
-    #     print("No se encontraron supermercados cercanos en ese municipio")
+        #meto datos en la lista: nombre del supermercado, direción, distancia y provincia
+        tupla = (nombre, direccion, distancia)
+        # print(tupla)
+        json += ('{"name": "'+str(nombre)+'","address": "'+str(direccion)+'","distance": '+str(distancia)+'},')
+        supermercados.append(tupla)
+    json = json[:-1]
+    json += ']'
+    print(json)
+    # print("hola", end="")
+    # return json
+    # print("\nERROR en ", linkMunicipio, "\n")
+    #valor random
+# if len(supermercados)==0:
+#     print("No se encontraron supermercados cercanos en ese municipio")
     
     #print(supermercados)
 # print(json)
 #     # sys.stdout.flush()
 # scraping('murcia', 'Alcantarilla')
-scraping(sys.argv[2], sys.argv[1])
+try:
+    scraping(sys.argv[2], sys.argv[1])
+except:
+    print('{"name": "error", "address": "error", "distance": -10}') #2 = ERROR para insercción en BBDD 
 # print('{"provincia": "' + sys.argv[2] + '", "municipio": "' + sys.argv[1] + '"}')
-sys.stdout.flush()
+    sys.stdout.flush()

@@ -201,9 +201,9 @@ async function supermercados(req: any, res: any) {
                 const insertarNoticias =
                     "INSERT INTO supermarket (name, address, distance, idSearch) VALUES(?,?,?,?)";
                 pool.query(insertarNoticias, [
-                    respuesta[i]["nombre"],
-                    respuesta[i]["direccion"],
-                    respuesta[i]["distancia"],
+                    respuesta[i]["name"],
+                    respuesta[i]["address"],
+                    respuesta[i]["distance"],
                     idSearch,
                 ]);
             }
