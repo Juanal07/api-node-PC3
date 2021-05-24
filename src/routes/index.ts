@@ -17,7 +17,7 @@ router.post("/api/auth/login", auth.login);
 router.post("/api/auth/register", auth.register);
 
 router.get("/api/municipality/listVillages", municipality.listaPueblos);
-router.post("/api/municipality/busqueda", municipality.busqueda);
+router.post("/api/municipality/busqueda", middleware.verifyToken, municipality.busqueda);
 router.post("/api/municipality/infoPueblo", municipality.infoPueblo);
 router.post("/api/municipality/stations", municipality.estaciones);
 router.post("/api/municipality/medicalcenters", municipality.centrosMedicos);

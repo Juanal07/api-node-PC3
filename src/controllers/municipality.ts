@@ -28,19 +28,19 @@ async function listaPueblos(req: any, res: any) {
 
 async function busqueda(req: any, res: any) {
     try {
-        const { idMunicipality } = req.body;
+        const { idMunicipality, idUser } = req.body;
         const searchQuery =
             "SELECT * FROM search WHERE idMunicipality = ? and expDate > now() ORDER BY date DESC LIMIT 1";
         const result = await pool.query(searchQuery, [idMunicipality]);
         console.log("Resultado de la consulta: " + result[0]);
 
-        const idUser = 25;
+        //const idUser = 25;
 
         if (result[0] == null) {
             console.log("HOLAA", result[0] == null);
             const insertNullQuery =
-                "INSERT INTO search (idMunicipality, date, expDate) VALUES (?, NOW(),DATE_ADD(NOW(),interval 1 week))";
-            await pool.query(insertNullQuery, [idMunicipality]);
+                "INSERT INTO search (idMunicipality, date, expDate, searcher) VALUES (?, NOW(),DATE_ADD(NOW(),interval 1 week), ?)";
+            await pool.query(insertNullQuery, [idMunicipality, idUser]);
             console.log("insertado");
             //Datos de la tabla municipality
             const idSearchConsulta =
