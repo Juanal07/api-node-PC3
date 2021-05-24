@@ -1,18 +1,11 @@
-import express from "express";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { pool } from "../database";
 import { spawn } from "child_process";
 
 async function listaPueblos(req: any, res: any) {
     try {
         const sqlQuery =
-            // "SELECT idMunicipality, name, province FROM municipality";
             "SELECT idMunicipality, name, province FROM municipality";
         const result = await pool.query(sqlQuery);
-        // const id = result[0].idMunicipality;
-        // const nombre = result[0].name;
-        // const provincia = result[0].province;
         console.log(result);
         res.status(200).json({
             status: 200,
@@ -24,20 +17,16 @@ async function listaPueblos(req: any, res: any) {
     }
 }
 
-//Solucionar
-
 async function busqueda(req: any, res: any) {
     try {
-        const { idMunicipality, idUser } = req.body;
+        let { idMunicipality, idUser } = req.body;
         const searchQuery =
             "SELECT * FROM search WHERE idMunicipality = ? and expDate > now() ORDER BY date DESC LIMIT 1";
         const result = await pool.query(searchQuery, [idMunicipality]);
-        console.log("Resultado de la consulta: " + result[0]);
-
-        //const idUser = 25;
-
+        // console.log("Resultado de la consulta: " + result[0]);
+        console.log("idUser: " + idUser);
+        // Si el municipio no ha sido buscado
         if (result[0] == null) {
-            console.log("HOLAA", result[0] == null);
             const insertNullQuery =
                 "INSERT INTO search (idMunicipality, date, expDate, searcher) VALUES (?, NOW(),DATE_ADD(NOW(),interval 1 week), ?)";
             await pool.query(insertNullQuery, [idMunicipality, idUser]);
@@ -53,6 +42,7 @@ async function busqueda(req: any, res: any) {
                 data: { idSearch: busqueda[0].idsearch, idMunicipality },
             });
         } else {
+            //Si el municipio si ha sido buscado
             const idSearch = result[0].idSearch;
             const nRestaurants = result[0].nRestaurants;
             const media = result[0].media;
