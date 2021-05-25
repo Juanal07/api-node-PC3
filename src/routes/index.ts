@@ -40,6 +40,11 @@ router.post(
     middleware.verifyToken,
     profile.changePsw
 );
+router.post(
+    "/api/profile/showSearches",
+    middleware.verifyToken,
+    profile.showSearches
+);
 
 // router.post("/api/community", middleware.verifyToken, profile.community);
 
