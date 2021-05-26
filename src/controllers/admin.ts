@@ -40,26 +40,7 @@ async function user(req: any, res: any) {
         res.status(400).send(err);
     }
 }
-//falta token
-async function createUser(req: any, res: any) {
-    try {
-        const data = req.body;
-        // const respuesta = JSON.parse(data);
-        const sqlQuery = "INSERT INTO user(name, email, password, active, admin) VALUES (?,?,?,1,0)";
-        await pool.query(sqlQuery, [
-            [data.name],
-            [data.email],
-            [data.password],
-        ]);
-        
-        res.status(200).json({ 
-            status:200,    
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(400).send(err);
-    }
-}
+
 
 async function deleteUser(req: any, res: any) {
     try {
@@ -79,30 +60,31 @@ async function deleteUser(req: any, res: any) {
         res.status(400).send(err);
     }
 }
-//falta  
-async function updateUser(req: any, res: any) {
+
+//Usuarios registrados por mes
+async function RegisterMes (req: any, res: any) {
     try {
-        
-        const data = req.body;
-        const sqlQuery = "UPDATE user SET name = ?, email = ?, password = ? WHERE idUser = 28";
-        await pool.query(sqlQuery, [
-            [data.name],
-            [data.email],
-            [data.password],
-        ]);
-        res.status(200).json({ 
-            status:200, 
-        });   
+        const sqlQuery =
+            "SELECT count(NAME) AS Usuarios, month(dateSignIn) AS Mes FROM user where admin=0 GROUP BY month(dateSignIn)";
+        const result = await pool.query(sqlQuery);
+        console.log(result);
+        res.status(200).json({
+            status: 200,
+            data: result,
+        });
     } catch (err) {
-        console.log(err);
+        console.log("Error al obtener los usuarios", err);
         res.status(400).send(err);
     }
 }
 
+//Municipios mas buscados
+
+
 export default {
     getUsers,
     user,
-    createUser,
     deleteUser,
-    updateUser,
+    RegisterMes,
+
 };

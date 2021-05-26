@@ -17,6 +17,7 @@ router.get("/", async function (req: any, res: any) {
 
 router.post("/api/auth/login", auth.login);
 router.post("/api/auth/register", auth.register);
+// router.get("/api/auth/endSession", middleware.verifyToken, auth.endSession );
 
 router.get("/api/municipality/listVillages", municipality.listaPueblos);
 router.post("/api/municipality/busqueda", municipality.busqueda);
@@ -41,9 +42,9 @@ router.post(
 
 router.get("/api/admin/user-all", admin.getUsers);
 router.post("/api/admin/user", admin.user);
-router.post("/api/admin/createUser", admin.createUser);
 router.post("/api/admin/deleteUser", admin.deleteUser);
-router.post("/api/admin/updateUser", admin.updateUser);
+router.get("/api/admin/RegisterMes", admin.RegisterMes);
+
 
 
 // router.post("/api/community", middleware.verifyToken, profile.community);

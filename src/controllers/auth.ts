@@ -43,6 +43,9 @@ async function login(req: any, res: any) {
         console.log(db_idUser);
         const match = await bcrypt.compare(password, db_psw);
         if (match) {
+            // const data = req.body;
+            const sqlQuery = "INSERT INTO log (login, logout, idUser) VALUES(NOW(),expiresIn,?)";
+            await pool.query(sqlQuery,[db_idUser]);
             const token = await jwt.sign({ db_idUser }, "secret", {
                 expiresIn: "30m",
             });
@@ -62,6 +65,16 @@ async function login(req: any, res: any) {
         res.status(400).send(err);
     }
 }
+
+// async function endSession(req: any, res: any){
+    
+//     try {
+//         console.log("HOLAA");  
+//     } catch (err) {
+//         console.log(err);
+//         res.status(400).send(err);
+//     }
+// }
 
 export default { register, login };
 
