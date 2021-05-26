@@ -56,7 +56,9 @@ def ws_pueblo(link):
             link = item.a['href']
             ws_restaurant(link)
         nextPage = soup.find(attrs={"class": "next"}).a['href']
-        link = nextPage
+        # link = nextPage
+        link = ""
+
     return None
 
 def ws_restaurant(link):
