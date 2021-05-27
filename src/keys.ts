@@ -8,3 +8,13 @@ module.exports = {
         connectionLimit: 1,
     },
 };
+
+//Keys para trabajar en BBDD local con XAMPP
+/*module.exports = {
+    database: {
+        host: "localhost",
+        user: "root",
+        password: "",
+        database: "prsoftlusion",
+    },
+};*/

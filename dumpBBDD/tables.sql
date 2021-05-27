@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `log` (
   PRIMARY KEY (`idLog`),
   KEY `idUser` (`idUser`),
   CONSTRAINT `FK_log_user` FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4;
 
 -- La exportación de datos fue deseleccionada.
 
@@ -85,9 +85,9 @@ CREATE TABLE IF NOT EXISTS `municipality` (
   `region` varchar(100) DEFAULT NULL,
   `province` varchar(100) NOT NULL,
   `ccaa` varchar(100) NOT NULL,
-  `population` int(11) DEFAULT NULL,
-  `surface` float DEFAULT NULL,
   `altitude` float DEFAULT NULL,
+  `surface` float DEFAULT NULL,
+  `population` int(11) DEFAULT NULL,
   `density` float DEFAULT NULL,
   PRIMARY KEY (`idMunicipality`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8890 DEFAULT CHARSET=utf8mb4;
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `search` (
   KEY `searcher` (`searcher`),
   CONSTRAINT `FK_municipality_search` FOREIGN KEY (`idMunicipality`) REFERENCES `municipality` (`idMunicipality`),
   CONSTRAINT `FK_user_search` FOREIGN KEY (`searcher`) REFERENCES `user` (`idUser`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=443 DEFAULT CHARSET=utf8mb4;
 
 -- La exportación de datos fue deseleccionada.
 
@@ -138,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `supermarket` (
   PRIMARY KEY (`idSupermarket`),
   KEY `idSearch` (`idSearch`) USING BTREE,
   CONSTRAINT `FK_supermarket_search` FOREIGN KEY (`idSearch`) REFERENCES `search` (`idSearch`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=311 DEFAULT CHARSET=utf8mb4;
 
 -- La exportación de datos fue deseleccionada.
 
@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `email_unique` (`email`),
   KEY `idCommunity` (`idCommunity`),
   CONSTRAINT `FK_idcom_user` FOREIGN KEY (`idCommunity`) REFERENCES `community` (`idComunity`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4;
 
 -- La exportación de datos fue deseleccionada.
 
