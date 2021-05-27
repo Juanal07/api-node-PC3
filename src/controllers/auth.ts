@@ -43,8 +43,7 @@ async function login(req: any, res: any) {
         console.log(db_idUser);
         const match = await bcrypt.compare(password, db_psw);
         if (match) {
-            // const data = req.body;
-            const sqlQuery = "INSERT INTO log (login, logout, idUser) VALUES(NOW(),expiresIn,?)";
+            const sqlQuery = "INSERT INTO log (login, logout, idUser) VALUES(NOW(),NULL,?)";
             await pool.query(sqlQuery,[db_idUser]);
             const token = await jwt.sign({ db_idUser }, "secret", {
                 expiresIn: "30m",
@@ -66,16 +65,21 @@ async function login(req: any, res: any) {
     }
 }
 
-// async function endSession(req: any, res: any){
+async function endSession(req: any, res: any){
     
-//     try {
-//         console.log("HOLAA");  
-//     } catch (err) {
-//         console.log(err);
-//         res.status(400).send(err);
-//     }
-// }
+    try {
+        console.log("HOLAA");
+        const {idUser} = req.body;
+        const sqlQuery ="UPDATE log SET logout = NOW() WHERE idUser = ? ORDER BY idLog DESC LIMIT 1";
+        //UPDATE log SET logout = NOW() WHERE idUser = ?
+        //UPDATE log SET logout = NOW() WHERE idUser = 7 ORDER BY idLog DESC LIMIT 1
+    await pool.query(sqlQuery, [idUser]);
+    } catch (err) {
+        console.log(err);
+        res.status(400).send(err);
+    }
+}
 
-export default { register, login };
+export default { register, login, endSession };
 
 // module.exports = { login };

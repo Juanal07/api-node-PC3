@@ -17,7 +17,7 @@ router.get("/", async function (req: any, res: any) {
 
 router.post("/api/auth/login", auth.login);
 router.post("/api/auth/register", auth.register);
-// router.get("/api/auth/endSession", middleware.verifyToken, auth.endSession );
+router.post("/api/auth/endSession", middleware.verifyToken, auth.endSession );
 
 router.get("/api/municipality/listVillages", municipality.listaPueblos);
 router.post("/api/municipality/busqueda", municipality.busqueda);
