@@ -3,6 +3,8 @@ import express from "express";
 import auth from "../controllers/auth";
 import municipality from "../controllers/municipality";
 import profile from "../controllers/profile";
+import admin from "../controllers/admin";
+
 // import community from "../controllers/community";
 
 import middleware from "../middlewares/middleware";
@@ -15,6 +17,7 @@ router.get("/", async function (req: any, res: any) {
 
 router.post("/api/auth/login", auth.login);
 router.post("/api/auth/register", auth.register);
+router.post("/api/auth/endSession", middleware.verifyToken, auth.endSession );
 
 router.get("/api/municipality/listVillages", municipality.listaPueblos);
 router.post(
@@ -40,6 +43,13 @@ router.post(
     middleware.verifyToken,
     profile.changePsw
 );
+
+router.get("/api/admin/user-all", admin.getUsers);
+router.post("/api/admin/user", admin.user);
+router.post("/api/admin/deleteUser", admin.deleteUser);
+router.get("/api/admin/RegisterMes", admin.RegisterMes);
+
+
 
 // router.post("/api/community", middleware.verifyToken, profile.community);
 
