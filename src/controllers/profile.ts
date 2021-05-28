@@ -1,6 +1,4 @@
-import express from "express";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { pool } from "../database";
 
 async function infoUser(req: any, res: any) {
@@ -88,4 +86,26 @@ async function changePsw(req: any, res: any) {
     }
 }
 
-export default { changeData, infoUser, changePsw };
+async function showSearches(req: any, res: any) {
+    try {
+        const { idUser } = req.body;
+        console.log(idUser);
+        if (idUser == null) {
+            console.log(idUser);
+            res.status(403).send();
+        } else {
+            const sqlQuery = "SELECT * FROM search WHERE searcher=?";
+            const response = await pool.query(sqlQuery, [idUser]);
+            console.log("Busquedas: ", response);
+            res.json({
+                status: 200,
+                data: response,
+            });
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(400).send(err);
+    }
+}
+
+export default { changeData, infoUser, changePsw, showSearches };

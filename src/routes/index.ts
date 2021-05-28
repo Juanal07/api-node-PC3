@@ -43,6 +43,11 @@ router.post(
     middleware.verifyToken,
     profile.changePsw
 );
+router.post(
+    "/api/profile/showSearches",
+    middleware.verifyToken,
+    profile.showSearches
+);
 
 router.get("/api/admin/user-all", admin.getUsers);
 router.post("/api/admin/user", admin.user);
