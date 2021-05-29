@@ -49,13 +49,15 @@ router.post(
     profile.showSearches
 );
 
-router.get("/api/admin/user-all", admin.getUsers);
-router.post("/api/admin/user", admin.user);
-router.post("/api/admin/deleteUser", admin.deleteUser);
-router.get("/api/admin/RegisterMes", admin.RegisterMes);
-
-
-
+router.get("/api/admin/user-all", middleware.verifyToken, middleware.verifyAdmin, admin.getUsers);
+router.post("/api/admin/user", middleware.verifyToken, middleware.verifyAdmin, admin.user);
+router.post("/api/admin/deleteUser", middleware.verifyToken, middleware.verifyAdmin, admin.deleteUser);
+router.get("/api/admin/muniScrapeados", middleware.verifyToken, middleware.verifyAdmin, admin.muniScrapeados);
+router.get("/api/admin/RegisterMes", middleware.verifyToken, middleware.verifyAdmin, admin.RegisterMes);
+router.get("/api/admin/activosInactivos", middleware.verifyToken,middleware.verifyAdmin, admin.activosInactivos);
+router.get("/api/admin/rankingsActivos", middleware.verifyToken,middleware.verifyAdmin, admin.rankingsActivos);
+router.get("/api/admin/actividadDiaria", middleware.verifyToken,middleware.verifyAdmin, admin.actividadDiaria);
+router.get("/api/admin/muniBuscados", middleware.verifyToken,  middleware.verifyAdmin, admin.muniBuscados);
 // router.post("/api/community", middleware.verifyToken, profile.community);
 
 module.exports = router;

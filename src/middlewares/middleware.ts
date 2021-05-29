@@ -1,5 +1,17 @@
 import jwt from "jsonwebtoken";
 
+async function verifyAdmin(req: any, res: any, next: any) {
+    const {idUser} = req.body;
+    console.log("idUser "+idUser);
+    if(idUser!=43){
+        console.log("Error");
+        res.status(400).send();
+    }else{
+        next();
+    }
+    
+}
+
 // Authorization: Bearer <token>
 async function verifyToken(req: any, res: any, next: any) {
     console.log("...Verificando Token...");
@@ -25,4 +37,4 @@ async function verifyToken(req: any, res: any, next: any) {
     }
 }
 
-export default { verifyToken };
+export default { verifyToken, verifyAdmin };
