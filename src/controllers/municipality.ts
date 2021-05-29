@@ -194,7 +194,14 @@ async function supermercados(req: any, res: any) {
             provincia,
         ]);
         subprocessSupermercados.stdout.on("data", (data) => {
-            const respuesta = JSON.parse(data);
+            let respuesta;
+            try {
+                respuesta = JSON.parse(data);
+            } catch {
+                respuesta = JSON.parse(
+                    '{"name": "error", "address": "error", "distance": -10}'
+                );
+            }
             console.log(respuesta);
             let i;
             for (i = 0; i < respuesta.length; i++) {

@@ -94,7 +94,8 @@ async function showSearches(req: any, res: any) {
             console.log(idUser);
             res.status(403).send();
         } else {
-            const sqlQuery = "SELECT * FROM search WHERE searcher=?";
+            const sqlQuery =
+                "SELECT municipality.name, media, nRestaurants, unpopulated, search.date, expDate FROM search JOIN municipality ON search.idMunicipality=municipality.idMunicipality WHERE searcher=?";
             const response = await pool.query(sqlQuery, [idUser]);
             console.log("Busquedas: ", response);
             res.json({
