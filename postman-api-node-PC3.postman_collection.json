@@ -1,427 +1,805 @@
 {
 	"info": {
-		"_postman_id": "0cf12a9b-7b11-4916-ac8b-74b3cae26926",
+		"_postman_id": "5d7e900e-ed59-4cb4-8c7e-6810a2144634",
 		"name": "api-node-PC3",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "/",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/api/auth/login",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"email\": \"zxcv\",\n    \"password\": \"zxcv\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "auth",
+			"item": [
+				{
+					"name": "/api/auth/login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYl9pZFVzZXIiOjI2LCJpYXQiOjE2MjIzOTMzMTAsImV4cCI6MTYyMjM5NTExMH0.PnY43AY8jUEAadoftfAEqN__wrLu0XsOp6WvkRLPeM8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin\",\n    \"password\": \"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/auth/login",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"auth",
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/api/auth/register",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"Juan\",\n    \"email\": \"a2adf@gmail.com\",\n    \"password\": \"1234\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "/api/auth/register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Juan\",\n    \"email\": \"a2adf@gmail.com\",\n    \"password\": \"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/auth/register",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"auth",
-						"register"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/api/municipality/listVillages",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/api/municipality/listVillages",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"municipality",
-						"listVillages"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/api/municipality/busqueda",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"idMunicipality\": 4711\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "/api/auth/endSession",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYl9pZFVzZXIiOjI2LCJpYXQiOjE2MjIzOTMxMjgsImV4cCI6MTYyMjM5NDkyOH0.VIT6-WsJi4TkF73l7kA2YPIZNEl3WlM-PdLdmJeqi1g",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idUser\": 26\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/endSession",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"endSession"
+							]
 						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/api/municipality/busqueda",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"municipality",
-						"busqueda"
-					]
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "/api/municipality/infoPueblo",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"idMunicipality\": 4711\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "municipality",
+			"item": [
+				{
+					"name": "/api/municipality/listVillages",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/municipality/listVillages",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"municipality",
+								"listVillages"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/municipality/infoPueblo",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"municipality",
-						"infoPueblo"
-					]
+				{
+					"name": "/api/municipality/stations",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"idMunicipality\": 279\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/municipality/stations",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"municipality",
+								"stations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/municipality/busqueda",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"idMunicipality\": 4711\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/municipality/busqueda",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"municipality",
+								"busqueda"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/municipality/medicalcenters",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"idMunicipality\": 4711\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/municipality/medicalcenters",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"municipality",
+								"medicalcenters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/municipality/infoPueblo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"idMunicipality\": 4711\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/municipality/infoPueblo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"municipality",
+								"infoPueblo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/municipality/supermarkets",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"idMunicipality\": 8191,\n    \"idSearch\": 59\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/municipality/supermarkets",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"municipality",
+								"supermarkets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/municipality/restaurants",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"idMunicipality\": 5234,\n    \"idSearch\": 42\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/municipality/restaurants",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"municipality",
+								"restaurants"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/municipality/news",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"idMunicipality\": 5657,\n    \"idSearch\": 95\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/municipality/news",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"municipality",
+								"news"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "/api/municipality/stations",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"idMunicipality\": 4711\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "profile",
+			"item": [
+				{
+					"name": "/api/profile/infoUser",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYl9pZFVzZXIiOjI2LCJpYXQiOjE2MjIzOTMzMTAsImV4cCI6MTYyMjM5NTExMH0.PnY43AY8jUEAadoftfAEqN__wrLu0XsOp6WvkRLPeM8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idUser\": 26\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/profile/infoUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"profile",
+								"infoUser"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/municipality/stations",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"municipality",
-						"stations"
-					]
+				{
+					"name": "/api/profile/changeData",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYl9pZFVzZXIiOjI2LCJpYXQiOjE2MjIzOTMzMTAsImV4cCI6MTYyMjM5NTExMH0.PnY43AY8jUEAadoftfAEqN__wrLu0XsOp6WvkRLPeM8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"pepe\",\n    \"email\": \"zxcv\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/profile/changeData",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"profile",
+								"changeData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/profile/changePsw",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYl9pZFVzZXIiOjI2LCJpYXQiOjE2MjIzOTMzMTAsImV4cCI6MTYyMjM5NTExMH0.PnY43AY8jUEAadoftfAEqN__wrLu0XsOp6WvkRLPeM8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"old_psw\": \"zxcv\",\n    \"new_psw\": \"1111\",\n    \"new_psw2\": \"1111\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/profile/changePsw",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"profile",
+								"changePsw"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/profile/showSearches",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYl9pZFVzZXIiOjI2LCJpYXQiOjE2MjIzOTM1NDQsImV4cCI6MTYyMjM5NTM0NH0.ewnRiw_SxuZKXQd1GwRHH97dvgTyhDrRRaUIp8f4IQ8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idUser\": \"26\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/profile/showSearches",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"profile",
+								"showSearches"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "/api/municipality/medicalcenters",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"idMunicipality\": 4711\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "admin",
+			"item": [
+				{
+					"name": "/api/admin/user-all",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYl9pZFVzZXIiOjQzLCJpYXQiOjE2MjIzOTM3NTQsImV4cCI6MTYyMjM5NTU1NH0.xKzbxyQdrBjlbkCE2kOymJEgxgrAbTEFWtzHqFbyS6o",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/admin/user-all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"user-all"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/municipality/medicalcenters",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"municipality",
-						"medicalcenters"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/api/municipality/supermarkets",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"idMunicipality\": 8191,\n    \"idSearch\": 59\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "/api/admin/user",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYl9pZFVzZXIiOjQzLCJpYXQiOjE2MjIzOTM3NTQsImV4cCI6MTYyMjM5NTU1NH0.xKzbxyQdrBjlbkCE2kOymJEgxgrAbTEFWtzHqFbyS6o",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idUser\": 43\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/admin/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"user"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/municipality/supermarkets",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"municipality",
-						"supermarkets"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/api/municipality/restaurants",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"idMunicipality\": 4011,\n    \"idSearch\": 61\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "/api/admin/deleteUser",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYl9pZFVzZXIiOjQzLCJpYXQiOjE2MjIzOTQzNTksImV4cCI6MTYyMjM5NjE1OX0.D1GcR8AiHkPL9RnFGn4GYDGUevtlSszd6f361tiY100",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idUsuario\": 22\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/admin/deleteUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"deleteUser"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/municipality/restaurants",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"municipality",
-						"restaurants"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/api/municipality/news",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"idMunicipality\": 8191,\n    \"idSearch\": 59\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "/api/admin/muniScrapeados",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYl9pZFVzZXIiOjQzLCJpYXQiOjE2MjIzOTQzNTksImV4cCI6MTYyMjM5NjE1OX0.D1GcR8AiHkPL9RnFGn4GYDGUevtlSszd6f361tiY100",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/admin/muniScrapeados",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"muniScrapeados"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/municipality/news",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"municipality",
-						"news"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/api/profile/infoUser",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYl9pZFVzZXIiOjI2LCJpYXQiOjE2MjE0Mzg5MzMsImV4cCI6MTYyMTQ0MDczM30.WPlyl8ohK4U-7RTQ6MQtX99lLaZALU5GogfhwqjVmkY",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "/api/admin/RegisterMes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYl9pZFVzZXIiOjQzLCJpYXQiOjE2MjIzOTQzNTksImV4cCI6MTYyMjM5NjE1OX0.D1GcR8AiHkPL9RnFGn4GYDGUevtlSszd6f361tiY100",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/admin/RegisterMes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"RegisterMes"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/profile/infoUser",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"profile",
-						"infoUser"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/api/profile/changeData",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYl9pZFVzZXIiOjI2LCJpYXQiOjE2MjE0NDM2ODgsImV4cCI6MTYyMTQ0NTQ4OH0.VYOMIYcNYOJbdxQLmwGF3HCFgyEf4tN3dkB0gBKI6PY",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"pepe\",\n    \"email\": \"zxcv\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "/api/admin/activosInactivos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYl9pZFVzZXIiOjQzLCJpYXQiOjE2MjIzOTQzNTksImV4cCI6MTYyMjM5NjE1OX0.D1GcR8AiHkPL9RnFGn4GYDGUevtlSszd6f361tiY100",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/admin/activosInactivos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"activosInactivos"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/profile/changeData",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"profile",
-						"changeData"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/api/profile/changePsw",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYl9pZFVzZXIiOjI2LCJpYXQiOjE2MjE0NDM2ODgsImV4cCI6MTYyMTQ0NTQ4OH0.VYOMIYcNYOJbdxQLmwGF3HCFgyEf4tN3dkB0gBKI6PY",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"old_psw\": \"asdf\",\n    \"new_psw\": \"zxcv\",\n    \"new_psw2\": \"zxcv\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "/api/admin/rankingsActivos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYl9pZFVzZXIiOjQzLCJpYXQiOjE2MjIzOTQzNTksImV4cCI6MTYyMjM5NjE1OX0.D1GcR8AiHkPL9RnFGn4GYDGUevtlSszd6f361tiY100",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/admin/rankingsActivos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"rankingsActivos"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/profile/changePsw",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"profile",
-						"changePsw"
-					]
+				{
+					"name": "/api/admin/actividadDiaria",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYl9pZFVzZXIiOjQzLCJpYXQiOjE2MjIzOTQzNTksImV4cCI6MTYyMjM5NjE1OX0.D1GcR8AiHkPL9RnFGn4GYDGUevtlSszd6f361tiY100",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/admin/actividadDiaria",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"actividadDiaria"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/admin/muniBuscados",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYl9pZFVzZXIiOjQzLCJpYXQiOjE2MjIzOTQzNTksImV4cCI6MTYyMjM5NjE1OX0.D1GcR8AiHkPL9RnFGn4GYDGUevtlSszd6f361tiY100",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/admin/muniBuscados",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"muniBuscados"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		}
 	]
 }

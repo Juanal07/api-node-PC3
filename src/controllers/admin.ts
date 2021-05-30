@@ -44,12 +44,11 @@ async function user(req: any, res: any) {
 
 async function deleteUser(req: any, res: any) {
     try {
-        const idUser = req.body.idUser;
+        const { idUsuario } = req.body;
         
-        const sqlQuery = "delete from user where idUser=?";
-        const result = await pool.query(sqlQuery, [idUser]);
+        const sqlQuery = "UPDATE user SET active = 0 WHERE idUser = ?";
+        const result = await pool.query(sqlQuery, [idUsuario]);
         console.log(result)
-
         
         res.status(200).json({ 
             status:200, 

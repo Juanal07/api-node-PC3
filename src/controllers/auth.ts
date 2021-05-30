@@ -75,6 +75,10 @@ async function endSession(req: any, res: any) {
         //UPDATE log SET logout = NOW() WHERE idUser = ?
         //UPDATE log SET logout = NOW() WHERE idUser = 7 ORDER BY idLog DESC LIMIT 1
         await pool.query(sqlQuery, [idUser]);
+        res.status(200).json({
+            status: 200,
+            data: { name: "HOLA AFAN"}
+        });
     } catch (err) {
         console.log(err);
         res.status(400).send(err);
