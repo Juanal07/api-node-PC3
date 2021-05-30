@@ -37,13 +37,13 @@ CREATE TABLE IF NOT EXISTS `community` (
 -- Volcando estructura para tabla prsoftlusion.log
 CREATE TABLE IF NOT EXISTS `log` (
   `idLog` int(11) NOT NULL AUTO_INCREMENT,
-  `login` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `login` datetime DEFAULT current_timestamp(),
   `logout` datetime DEFAULT NULL,
   `idUser` int(11) NOT NULL,
   PRIMARY KEY (`idLog`),
   KEY `idUser` (`idUser`),
   CONSTRAINT `FK_log_user` FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4;
 
 -- La exportación de datos fue deseleccionada.
 
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `search` (
   KEY `searcher` (`searcher`),
   CONSTRAINT `FK_municipality_search` FOREIGN KEY (`idMunicipality`) REFERENCES `municipality` (`idMunicipality`),
   CONSTRAINT `FK_user_search` FOREIGN KEY (`searcher`) REFERENCES `user` (`idUser`)
-) ENGINE=InnoDB AUTO_INCREMENT=443 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=499 DEFAULT CHARSET=utf8mb4;
 
 -- La exportación de datos fue deseleccionada.
 
@@ -138,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `supermarket` (
   PRIMARY KEY (`idSupermarket`),
   KEY `idSearch` (`idSearch`) USING BTREE,
   CONSTRAINT `FK_supermarket_search` FOREIGN KEY (`idSearch`) REFERENCES `search` (`idSearch`)
-) ENGINE=InnoDB AUTO_INCREMENT=311 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=928 DEFAULT CHARSET=utf8mb4;
 
 -- La exportación de datos fue deseleccionada.
 
@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `email_unique` (`email`),
   KEY `idCommunity` (`idCommunity`),
   CONSTRAINT `FK_idcom_user` FOREIGN KEY (`idCommunity`) REFERENCES `community` (`idComunity`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4;
 
 -- La exportación de datos fue deseleccionada.
 
