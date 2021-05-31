@@ -4,7 +4,7 @@ import { pool } from "../database";
 async function getUsers(req: any, res: any) {
     try {
         const sqlQuery =
-            "SELECT name FROM user where admin=0";
+            "SELECT idUser, name, email, dateSignIn FROM user where admin=0";
         const result = await pool.query(sqlQuery);
         console.log(result);
         res.status(200).json({
@@ -19,10 +19,10 @@ async function getUsers(req: any, res: any) {
 
 async function user(req: any, res: any) {
     try {
-        const { idUser } = req.body;
+        // const { idUser } = req.body;
         
-        const sqlQuery = "SELECT name, email, dateSignIn FROM user WHERE idUser = ?";
-        const result = await pool.query(sqlQuery, idUser);
+        const sqlQuery = "SELECT name, email, dateSignIn FROM user";
+        const result = await pool.query(sqlQuery);
         const name = result[0]["name"];
         const email = result[0]["email"];
         const dateSignIn = result[0]["dateSignIn"];
