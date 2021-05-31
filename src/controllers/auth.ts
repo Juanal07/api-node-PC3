@@ -15,9 +15,22 @@ async function register(req: any, res: any) {
             const sqlQuery2 =
                 "INSERT INTO user (name, email, password, active, admin) VALUES (?,?,?,1,0)";
             await pool.query(sqlQuery2, [name, email, encryptedPassword]);
+
+            const sqlQuery3 = "SELECT idUser FROM user WHERE email=?";
+            const result3 = await pool.query(sqlQuery3, [email]);
+            const db_idUser = result3[0].idUser;
+            const token = await jwt.sign({ db_idUser }, "secret", {
+                expiresIn: "30m",
+            });
+
             res.status(200).json({
                 status: 200,
-                data: { email, password, msg: "registered" },
+                data: {
+                    msg: "registered",
+                    name,
+                    token,
+                    db_idUser,
+                },
             });
         } else {
             res.status(403).json({
@@ -77,7 +90,7 @@ async function endSession(req: any, res: any) {
         await pool.query(sqlQuery, [idUser]);
         res.status(200).json({
             status: 200,
-            data: { name: "HOLA AFAN"}
+            data: { name: "HOLA AFAN" },
         });
     } catch (err) {
         console.log(err);
