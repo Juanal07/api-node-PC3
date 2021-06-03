@@ -46,6 +46,7 @@ router.get("/api/admin/activosInactivos", middleware.verifyToken,middleware.veri
 router.get("/api/admin/rankingsActivos", middleware.verifyToken,middleware.verifyAdmin, admin.rankingsActivos);
 router.get("/api/admin/actividadDiaria", middleware.verifyToken,middleware.verifyAdmin, admin.actividadDiaria);
 router.get("/api/admin/muniBuscados", middleware.verifyToken,  middleware.verifyAdmin, admin.muniBuscados);
+router.get("/api/admin/actData", middleware.verifyToken,  middleware.verifyAdmin, admin.actData);
 // router.post("/api/community", middleware.verifyToken, profile.community);
 
 module.exports = router;
