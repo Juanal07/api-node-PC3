@@ -59,6 +59,10 @@ async function login(req: any, res: any) {
             const sqlQuery =
                 "INSERT INTO log (login, logout, idUser) VALUES(NOW(),NULL,?)";
             await pool.query(sqlQuery, [db_idUser]);
+            //actualizamos valor de activo
+            const sqlQuery2 =
+                "UPDATE user SET active = 1 WHERE idUser = ?";
+            await pool.query(sqlQuery2, [db_idUser]);
             const token = await jwt.sign({ db_idUser }, "secret", {
                 expiresIn: "30m",
             });
@@ -88,6 +92,9 @@ async function endSession(req: any, res: any) {
         //UPDATE log SET logout = NOW() WHERE idUser = ?
         //UPDATE log SET logout = NOW() WHERE idUser = 7 ORDER BY idLog DESC LIMIT 1
         await pool.query(sqlQuery, [idUser]);
+        const sqlQuery2 =
+                "UPDATE user SET active = 0 WHERE idUser = ?";
+            await pool.query(sqlQuery2, [idUser]);
         res.status(200).json({
             status: 200,
             data: { name: "HOLA AFAN" },

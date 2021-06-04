@@ -4,7 +4,7 @@ import { spawn } from "child_process";
 async function getUsers(req: any, res: any) {
     try {
         const sqlQuery =
-            "SELECT idUser, name, email, dateSignIn FROM user where admin=0";
+            "SELECT idUser, active, name, email, dateSignIn FROM user where admin=0";
         const result = await pool.query(sqlQuery);
         console.log(result);
         res.status(200).json({
@@ -46,7 +46,7 @@ async function deleteUser(req: any, res: any) {
     try {
         const { idUsuario } = req.body;
         
-        const sqlQuery = "UPDATE user SET active = 0 WHERE idUser = ?";
+        const sqlQuery = "UPDATE user SET noDeleted = 0 WHERE idUser = ?";
         const result = await pool.query(sqlQuery, [idUsuario]);
         console.log(result)
         
