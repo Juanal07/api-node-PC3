@@ -1,5 +1,5 @@
 import { pool } from "../database";
-
+import { spawn } from "child_process";
 
 async function getUsers(req: any, res: any) {
     try {
@@ -172,6 +172,17 @@ async function muniBuscados (req: any, res: any) {
     // }
 }
 
+async function actData(req: any, res: any) {
+    try {
+        const subprocessNoticias = spawn("python", [
+            "scrapers/actData.py"]);
+        res.status(200);
+    } catch (err) {
+        console.log("Error en la ejecución de la actualización", err);
+        res.status(400).send(err);
+    }
+}
+
 export default {
     getUsers,
     user,
@@ -182,6 +193,6 @@ export default {
     rankingsActivos,
     actividadDiaria,
     muniBuscados,
-    
+    actData,
 
 };
