@@ -28,7 +28,7 @@ async function busqueda(req: any, res: any) {
         // Si el municipio no ha sido buscado
         if (result[0] == null) {
             const insertNullQuery =
-                "INSERT INTO search (idMunicipality, date, expDate, searcher) VALUES (?, NOW(),DATE_ADD(NOW(),interval 1 day), ?)";
+                "INSERT INTO search (idMunicipality, date, expDate, searcher) VALUES (?, NOW(),DATE_ADD(NOW(),interval 1 week), ?)";
             await pool.query(insertNullQuery, [idMunicipality, idUser]);
             console.log("insertado");
             //Datos de la tabla municipality
