@@ -148,6 +148,22 @@ async function infoPueblo(req: any, res: any) {
     }
 }
 
+async function topBuscados (req: any, res: any) {
+        try {
+            const sqlQuery =
+                "SELECT municipality.name, municipality.shield, municipality.province, municipality.ccaa, COUNT(search.idMunicipality) AS numBusquedas FROM search JOIN municipality ON search.idMunicipality = municipality.idMunicipality GROUP BY search.idMunicipality ORDER BY numBusquedas DESC LIMIT 4";
+            const result = await pool.query(sqlQuery);
+            // console.log(result);
+            res.status(200).json({
+                status: 200,
+                data: result,
+            });
+        } catch (err) {
+            console.log("Error al obtener los usuarios", err);
+            res.status(400).send(err);
+        }
+}
+
 async function estaciones(req: any, res: any) {
     try {
         const { idMunicipality } = req.body;
@@ -295,4 +311,5 @@ export default {
     supermercados,
     restaurantes,
     noticias,
+    topBuscados,
 };

@@ -24,6 +24,7 @@ router.post("/api/auth/endSession", middleware.verifyToken, auth.endSession );
 router.get("/api/municipality/listVillages", municipality.listaPueblos);
 router.post("/api/municipality/busqueda", middleware.verifyToken, municipality.busqueda);
 router.post("/api/municipality/infoPueblo", municipality.infoPueblo);
+router.get("/api/municipality/topsearches", municipality.topBuscados);
 router.post("/api/municipality/stations", municipality.estaciones);
 router.post("/api/municipality/medicalcenters", municipality.centrosMedicos);
 router.post("/api/municipality/supermarkets", municipality.supermercados);
