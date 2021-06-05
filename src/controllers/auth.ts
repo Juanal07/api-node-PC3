@@ -13,7 +13,7 @@ async function register(req: any, res: any) {
         if (invalidEmail == 0) {
             const encryptedPassword = await bcrypt.hash(password, 10);
             const sqlQuery2 =
-                "INSERT INTO user (name, email, password, active, admin) VALUES (?,?,?,1,0)";
+                "INSERT INTO user (name, email, password, noDeleted, active, admin) VALUES (?,?,?,1,1,0)";
             await pool.query(sqlQuery2, [name, email, encryptedPassword]);
 
             const sqlQuery3 = "SELECT idUser FROM user WHERE email=?";
@@ -22,6 +22,9 @@ async function register(req: any, res: any) {
             const token = await jwt.sign({ db_idUser }, "secret", {
                 expiresIn: "30m",
             });
+            const sqlQuery4 =
+                "INSERT INTO log (login, logout, idUser) VALUES(NOW(),NULL,?)";
+            await pool.query(sqlQuery4, [db_idUser]);
 
             res.status(200).json({
                 status: 200,
