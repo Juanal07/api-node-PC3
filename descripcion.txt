@@ -1,0 +1,52 @@
+ voy a re-utilizar el scraper restaurants (ws_restaurants_new) añadiendo un par de datos: el numero de opiniones totales y la oferta de la zona 
+ 
+ voy a crear una tabla nueva restaurants_new
+ 
+ con idBusqueda_new y numOpiniones_new
+ 
+ que complementan a:
+ 
+ media y nRestaurants que ya estaban en la tabla search
+ 
+ la consulta final sera un JOIN de la tabla search y la tabla restaurants_new
+ 
+ 
+ 
+ 
+ENDPOINT NUEVO:
+http://localhost:8080/api/municipality/restaurants_new
+
+Le pasas al endpoint el id del municipio, el 257 es alcobendas te devuelve el numero de opiniones y la oferta
+cuando le pasas algun municipio sin opiniones te lo devuelve a 0 o si da error con -10.
+
+258 tmb funciona
+
+PETICIÓN
+{
+    "idMunicipality": 257,
+    "idSearch": 42
+}
+
+RESPUESTA 
+{
+    "status": 200,
+    "data": {
+        "nOpiniones": 31,
+        "oferta": "-27%MenúDegustación"
+    }
+}
+el endpoint inserta ademas en la tabla creada restaurants_new
+
+finalmente para relacionar y ampliar lo ya buscado en la tabla search lo que hare sera un join de search y restaurants_new buscando la misma idSearch
+
+http://localhost:8080/api/municipality/infoExamen
+
+
+SELECT search.idSearch, search.idMunicipality,search.nRestaurants,search.media, restaurants_new.nOpiniones_new, restaurants_new.oferta_new
+FROM search
+INNER JOIN restaurants_new ON search.idSearch=restaurants_new.idSearch;
+
+
+Se muestra el join en el nuevo enpoint q es un get.
+
+

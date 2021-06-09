@@ -148,20 +148,20 @@ async function infoPueblo(req: any, res: any) {
     }
 }
 
-async function topBuscados (req: any, res: any) {
-        try {
-            const sqlQuery =
-                "SELECT municipality.name, municipality.shield, municipality.province, municipality.ccaa, COUNT(search.idMunicipality) AS numBusquedas FROM search JOIN municipality ON search.idMunicipality = municipality.idMunicipality GROUP BY search.idMunicipality ORDER BY numBusquedas DESC LIMIT 4";
-            const result = await pool.query(sqlQuery);
-            // console.log(result);
-            res.status(200).json({
-                status: 200,
-                data: result,
-            });
-        } catch (err) {
-            console.log("Error al obtener los usuarios", err);
-            res.status(400).send(err);
-        }
+async function topBuscados(req: any, res: any) {
+    try {
+        const sqlQuery =
+            "SELECT municipality.name, municipality.shield, municipality.province, municipality.ccaa, COUNT(search.idMunicipality) AS numBusquedas FROM search JOIN municipality ON search.idMunicipality = municipality.idMunicipality GROUP BY search.idMunicipality ORDER BY numBusquedas DESC LIMIT 4";
+        const result = await pool.query(sqlQuery);
+        // console.log(result);
+        res.status(200).json({
+            status: 200,
+            data: result,
+        });
+    } catch (err) {
+        console.log("Error al obtener los usuarios", err);
+        res.status(400).send(err);
+    }
 }
 
 async function estaciones(req: any, res: any) {
@@ -274,6 +274,64 @@ async function restaurantes(req: any, res: any) {
     }
 }
 
+async function restaurantes_new(req: any, res: any) {
+    try {
+        const { idMunicipality, idSearch } = req.body;
+        const sqlQuery = "SELECT * FROM municipality WHERE idMunicipality = ?";
+        const result = await pool.query(sqlQuery, [idMunicipality]);
+        const nombre = result[0].name;
+        const provincia = result[0].province;
+        console.log(provincia);
+        const subprocessRestaurantes = spawn("python", [
+            "scrapers/ws_opiniones_new.py",
+            nombre,
+            provincia,
+        ]);
+        subprocessRestaurantes.stdout.on("data", (data) => {
+            const respuesta = JSON.parse(data);
+            console.log(respuesta);
+            const insertarRestaurante =
+                "INSERT INTO restaurants_new (nOpiniones_new, oferta_new, idSearch) VALUES(?,?,?)";
+            pool.query(insertarRestaurante, [
+                respuesta["nOpiniones"],
+                respuesta["oferta"],
+                idSearch,
+            ]);
+
+            // const select =
+            //     "SELECT search.idSearch, search.idMunicipality,search.nRestaurants,search.media, restaurants_new.numOpiniones_new, restaurants_new.oferta_new FROM search INNER JOIN restaurants_new ON search.idSearch=restaurants_new.idSearch;";
+            // const select = "SELECT * FROM user;";
+            // const result = pool.query(select);
+            res.status(200).json({
+                status: 200,
+                data: respuesta,
+            });
+        });
+    } catch (err) {
+        console.log("Error al obtener municipio", err);
+        res.status(400).send(err);
+    }
+}
+
+async function infoExamen(req: any, res: any) {
+    try {
+        const { idMunicipality } = req.body;
+        const select =
+            "SELECT search.idSearch, search.idMunicipality,search.nRestaurants, search.media, restaurants_new.nOpiniones_new, restaurants_new.oferta_new FROM search INNER JOIN restaurants_new ON search.idSearch=restaurants_new.idSearch;";
+
+        // const select = "SELECT * FROM user;";
+        const result = await pool.query(select);
+
+        res.status(200).json({
+            status: 200,
+            data: result,
+        });
+    } catch (err) {
+        console.log("Error al obtener municipio", err);
+        res.status(400).send(err);
+    }
+}
+
 async function noticias(req: any, res: any) {
     try {
         const { idMunicipality, idSearch } = req.body;
@@ -312,4 +370,6 @@ export default {
     restaurantes,
     noticias,
     topBuscados,
+    restaurantes_new,
+    infoExamen,
 };
