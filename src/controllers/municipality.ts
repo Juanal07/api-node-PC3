@@ -113,6 +113,108 @@ async function busqueda(req: any, res: any) {
     } catch (err) {}
 }
 
+async function busqueda_new(req: any, res: any) {
+    try {
+        let { idMunicipality, idUser } = req.body;
+        const searchQuery =
+            "SELECT * FROM search WHERE idMunicipality = ? and expDate > now() ORDER BY date DESC LIMIT 1";
+        const result = await pool.query(searchQuery, [idMunicipality]);
+        // console.log("Resultado de la consulta: " + result[0]);
+        console.log("idUser: " + idUser);
+        // Si el municipio no ha sido buscado
+        if (result[0] == null) {
+            const insertNullQuery =
+                "INSERT INTO search_new (idMunicipality, date, expDate, searcher) VALUES (?, NOW(),DATE_ADD(NOW(),interval 1 week), ?)";
+            await pool.query(insertNullQuery, [idMunicipality, idUser]);
+            console.log("insertado");
+            //Datos de la tabla municipality
+            const idSearchConsulta =
+                "SELECT idsearch FROM search ORDER BY idSearch DESC LIMIT 1";
+            const busqueda = await pool.query(idSearchConsulta);
+            console.log(busqueda[0].idsearch);
+            // devolver el idSearch
+            res.status(200).json({
+                status: 206,
+                data: { idSearch: busqueda[0].idsearch, idMunicipality },
+            });
+        } else {
+            //Si el municipio si ha sido buscado
+            const idSearch = result[0].idSearch;
+            const nRestaurants = result[0].nRestaurants;
+            const media = result[0].media;
+            const unpopulated = result[0].unpopulated;
+            const date = result[0].date;
+            const expDate = result[0].expDate;
+            const insertQuery =
+                "INSERT INTO search_new (searcher, idMunicipality, nRestaurants, media, unpopulated, date, expDate, tituloNoticia, fechaNoticia) VALUES (?,?,?,?,?,now(),?,?,?)";
+            await pool.query(insertQuery, [
+                idUser,
+                idMunicipality,
+                nRestaurants,
+                media,
+                unpopulated,
+                expDate,
+            ]);
+            console.log(idSearch);
+            //Obtenermos el idSearch de la nueva busqueda
+            const newIdSearch =
+                "SELECT idSearch FROM search WHERE idMunicipality = ? ORDER BY idSearch DESC LIMIT 1";
+            const idNueva = await pool.query(newIdSearch, [idMunicipality]);
+            // console.log(idNueva[0])
+            const newID = idNueva[0].idSearch;
+            console.log(newID);
+            //Se actualiza el idSearch de la tabla de supermercados para no duplicar los datos
+            const updateSupermarket =
+                "UPDATE supermarket SET idSearch = ? WHERE idSearch = ?";
+            await pool.query(updateSupermarket, [newID, idSearch]);
+            //Datos de la tabla municipality
+            const municipio =
+                "SELECT * FROM municipality WHERE idMunicipality = ?";
+            const municipality = await pool.query(municipio, [idMunicipality]);
+            //Datos de la tabla supermarket
+            const supermercados =
+                "SELECT name, address, distance FROM supermarket WHERE idSearch = ?";
+            const supermarkets = await pool.query(supermercados, [newID]);
+            //Datos de la tabla station
+            const estaciones =
+                "SELECT cercanias, name, address FROM station WHERE idMunicipality = ?";
+            const stations = await pool.query(estaciones, [idMunicipality]);
+            //Datos de la tabla noticias_new
+            const noticias_newSol =
+            "SELECT tituloNoticia, fechaNoticia FROM noticias_new WHERE idMunicipality = ?"
+            const noticias_new = await pool.query(noticias_newSol, [idMunicipality]);
+            //Datos de la tabla medicalcenter
+            const centrosMedicos =
+                "SELECT name, type, address FROM medicalcenter WHERE idMunicipality = ?";
+            const medicalcenters = await pool.query(centrosMedicos, [
+                idMunicipality,
+            ]);
+            res.status(200).json({
+                status: 200,
+                data: {
+                    name: municipality[0].name,
+                    shield: municipality[0].shield,
+                    region: municipality[0].region,
+                    province: municipality[0].province,
+                    ccaa: municipality[0].ccaa,
+                    population: municipality[0].population,
+                    surface: municipality[0].surface,
+                    altitude: municipality[0].altitude,
+                    density: municipality[0].density,
+                    nRestaurants: nRestaurants,
+                    media: media,
+                    unpopulated: unpopulated,
+                    supermarkets: supermarkets,
+                    stations: stations,
+                    medicalcenters: medicalcenters,
+                    noticias_new: noticias_new,
+                },
+            });
+        }
+    } catch (err) {}
+}
+
+
 async function infoPueblo(req: any, res: any) {
     try {
         const { idMunicipality } = req.body;
@@ -274,6 +376,38 @@ async function restaurantes(req: any, res: any) {
     }
 }
 
+async function noticiasExamen2(req: any, res: any) {
+    try {
+        const { idMunicipality } = req.body;
+        const sqlQuery = "SELECT * FROM municipality WHERE idMunicipality = ?";
+        const result = await pool.query(sqlQuery, [idMunicipality]);
+        // const nombre = result[0].name;
+        const subprocessNoticias = spawn("python", [
+            "scrapers/ws_noticias_NEW.py",
+        ]);
+        subprocessNoticias.stdout.on("data", (data) => {
+            const respuesta = JSON.parse(data);
+            console.log(respuesta)
+            let i;
+            for (i = 0; i < respuesta.length; i++) {
+                const insertarNoticias =
+                    "INSERT INTO noticias_new (tituloNoticia, fechaNoticia) VALUES(?,?)";
+                pool.query(insertarNoticias, [
+                    respuesta[i]["titulo"],
+                    respuesta[i]["fecha"],
+                ]);
+            }
+            res.status(200).json({
+                status: 200,
+                data: respuesta,
+            });
+        });
+    } catch (err) {
+        console.log("Error al obtener municipio", err);
+        res.status(400).send(err);
+    }
+}
+
 async function noticias(req: any, res: any) {
     try {
         const { idMunicipality, idSearch } = req.body;
@@ -312,4 +446,6 @@ export default {
     restaurantes,
     noticias,
     topBuscados,
+    noticiasExamen2,
+    busqueda_new,
 };

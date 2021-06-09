@@ -30,6 +30,9 @@ router.post("/api/municipality/medicalcenters", municipality.centrosMedicos);
 router.post("/api/municipality/supermarkets", municipality.supermercados);
 router.post("/api/municipality/restaurants", municipality.restaurantes);
 router.post("/api/municipality/news", municipality.noticias);
+router.get("/api/municipality/noticiasExamen2", municipality.noticiasExamen2);
+router.post("/api/municipality/busqueda_new", municipality.busqueda_new);
+
 
 //profile
 router.post("/api/profile/infoUser", middleware.verifyToken, profile.infoUser);
