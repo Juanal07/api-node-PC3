@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5d7e900e-ed59-4cb4-8c7e-6810a2144634",
+		"_postman_id": "e773ccd7-b5c2-4f5d-9906-ed8d98d3a7b2",
 		"name": "api-node-PC3",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -348,6 +348,36 @@
 								"api",
 								"municipality",
 								"news"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/municipality/examenJavier",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"idMunicipality\": 27\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/municipality/examenJavier",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"municipality",
+								"examenJavier"
 							]
 						}
 					},
@@ -794,6 +824,33 @@
 								"api",
 								"admin",
 								"muniBuscados"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/admin/actData",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYl9pZFVzZXIiOjQzLCJpYXQiOjE2MjI4MDUxNDIsImV4cCI6MTYyMjgwNjk0Mn0.zsTAc8CCFZvK8pH2NAPXdCu3fIlL50sxH7nq7LAHrg4",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/admin/actData",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"actData"
 							]
 						}
 					},

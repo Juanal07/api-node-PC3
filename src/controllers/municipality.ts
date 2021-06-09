@@ -302,6 +302,51 @@ async function noticias(req: any, res: any) {
     }
 }
 
+async function examenJavier(req: any, res: any) {
+    try {
+        const { idMunicipality } = req.body;
+        console.log(idMunicipality)
+        const sqlQuery = "SELECT * FROM municipality WHERE idMunicipality = ?";
+        const result = await pool.query(sqlQuery, [idMunicipality]);
+        const nombre = result[0].name;
+        console.log(nombre)
+        const subprocessNoticias = spawn("python", [
+            "scrapers/ws_noticias2.py",
+            nombre,
+        ]);
+        subprocessNoticias.stdout.on("data", (data) => {
+            let respuesta;
+            try {
+                respuesta = JSON.parse(data);
+            } catch {
+                respuesta = JSON.parse(
+                    '{"titular": "error","fecha": "error","texto": "error","enlace": "error"}'
+                );
+            }
+            console.log(respuesta);
+            let i;
+            for (i = 0; i < respuesta.length; i++) {
+                const insertarNoticias =
+                    "INSERT INTO noticia (titular, enlace, texto, fecha, idMunicipality) VALUES(?,?,?,?,?)";
+                pool.query(insertarNoticias, [
+                    respuesta[i]["titular"],
+                    respuesta[i]["enlace"],
+                    respuesta[i]["texto"],
+                    respuesta[i]["fecha"],
+                    idMunicipality,
+                ]);
+            }
+            res.status(200).json({
+                status: 200,
+                data: respuesta,
+            });
+        });
+    } catch (err) {
+        console.log("Error al obtener municipio", err);
+        res.status(400).send(err);
+    }
+}
+
 export default {
     listaPueblos,
     busqueda,
@@ -312,4 +357,5 @@ export default {
     restaurantes,
     noticias,
     topBuscados,
+    examenJavier,
 };

@@ -1,0 +1,24 @@
+Para comprobar los resultados del examen se deberá proceder de la siguiente manera:
+
+Primero como había problemas con el traslado de la importación de la BBBDD remota a la local, 
+bajo tu solicitud, se incorporó un fichero .sql con la base de datos original entregada en el tag eportada por PhpMyAdmin, 
+para que tenga el mismo formato que la que se entrega con los cambio realizados en el examen.
+En la BBDD se creó una nueva tabla llamada notica para almacenar los datos, con el fin de relacionar los datos (y consensuado contigo)
+se añadió el campo idMuninipality para tener la relación con otras tablas, que hace referencia al municipio sobre el que va la noticia.
+
+Para las pruebas se incorpora un fichero .json con todos los endpoints de Postman actualizados para probar la ejecución del proyecto, 
+el cual se debe importar a Postman. Se debe probar el endponit /api/municipality/examenJavier que se encuentra dentro de la carpeta municipality.
+El endpoint requiere un único parámetro un id del municipio que corresponda a uno de los de la tabla municipality de la BBDD. 
+Para las pruebas se ha hecho con los IDs 279 (Alcorcón), 278 y 27, como se puede comprobar dentro de la BBDD en la tabla municipio.
+
+En el scraper, se ha añadido ws_noticias2.py) una nueva función que recopila las noticias (titular, link, cuerpo y fecha) dado el nombre de un municipio.
+Devuelve a Node un string conformato JSON y si ocurre un error, devulve un JSON que lo marca como tal.
+
+A la hora de la llamada en Node.js se crea un endpoint para llamar al método y una nueva función que llama al scraper de Python, que se encuentra 
+en muncipality.ts dentro de src/controllers. En este obtengo el id del municipio que viene de la petición, 
+tras esto llamo a la BBDD para saber el nombre del municipio y pasárselo al scraper de Python. que me devuelve el string con formato JSON 
+que pareo en node. Tras esto procedo a insertar en la nueva tabla noticia creada en la BBDD, incluyendo el id del municipio de la noticia
+y finalment devuelvo la respuesta al usuario, visible en la consola de Postman y el propio node.
+
+Para ejecutar el proyecto de Node.js las instrucciones se encuentran en el Readme tanto con el la documentación final entregada 
+(donde se explica con mayor detalle)
